@@ -5,7 +5,7 @@ import { createContext, ReactNode, useContext } from "react";
 type OrderForm = Customer & Order & { order_hour: Date };
 const OrderContext = createContext<any>({});
 
-type OrderProviderProps = { children: ReactNode; orderForm: OrderForm };
+type OrderProviderProps = { children: ReactNode; orderForm: Customer };
 
 export function OrderProvider({ children, orderForm }: OrderProviderProps) {
   return (
