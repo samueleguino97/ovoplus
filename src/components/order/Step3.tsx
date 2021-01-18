@@ -76,7 +76,7 @@ function Step3({ onNextStep }: StepProps) {
 
           <AutoComplete
             options={items.map((item) => ({
-              value: item.name + item.id,
+              value: item.name,
               id: item.id,
               ...item,
             }))}

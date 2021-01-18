@@ -30,6 +30,7 @@ function Step1({ onNextStep }: StepProps) {
 
   async function createNewClient() {
     setModalLoading(true);
+    console.log(modalForm.getFieldsValue());
     const newCustomer = await db.create<Customer>(
       "customers",
       modalForm.getFieldsValue()
@@ -66,8 +67,8 @@ function Step1({ onNextStep }: StepProps) {
         <Form layout="vertical" form={modalForm}>
           <Form.Item
             label="Numero de Celular"
-            initialValue={form.getFieldValue("cellphone")}
-            name="cellphone"
+            initialValue={form.getFieldValue("phone")}
+            name="phone"
           >
             <Input disabled placeholder="Numero de Celular" />
           </Form.Item>
