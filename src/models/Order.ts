@@ -1,11 +1,9 @@
+import { Customer } from "./Customer";
 import { Item } from "./Item";
 
 export interface Order {
-  customer: string;
-  items: (Partial<Item> & {
-    price_per_unit: Number;
-    quantity: Number;
-  })[];
+  customer: Customer;
+  items: Partial<Item>[];
   payment_type: string;
   clarification: string;
   total: Number;

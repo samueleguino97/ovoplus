@@ -1,4 +1,5 @@
 import useDb from "@hooks/useDb";
+import useItems from "@hooks/useItems";
 import {
   Button,
   Col,
@@ -15,10 +16,11 @@ import { Item } from "models/Item";
 import React, { useEffect, useMemo, useState } from "react";
 import { sortBy } from "utils/sortBy";
 
-function ItemsPage() {
+function HistoryPage() {
   const db = useDb();
-  const [items, setItems] = useState<Item[]>([]);
+  const [historyItems, setItems] = useState<Item[]>([]);
 
+  const items = useItems();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [creatingItem, setCreatingItem] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,7 +34,7 @@ function ItemsPage() {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    db.get<Item>("items").then(setItems);
+    db.get("inventory_history").then(setItems);
   }, []);
 
   async function createItem() {
@@ -41,7 +43,7 @@ function ItemsPage() {
     db.create<Item>("items", {
       ...form.getFieldsValue(),
     }).then(async (created) => {
-      setItems([...items, created]);
+      setItems([...historyItems, created]);
       await db.create("inventory_history", {
         type: "initial",
         item: created.id,
@@ -56,7 +58,7 @@ function ItemsPage() {
     db.update<Item>("items", itemToEdit, {
       ...form.getFieldsValue(),
     }).then(() => {
-      const oldItems = [...items];
+      const oldItems = [...historyItems];
       const index = oldItems.findIndex((item) => item.id === itemToEdit);
       oldItems[index] = { ...oldItems[index], ...form.getFieldsValue() };
       setItems(oldItems);
@@ -68,38 +70,33 @@ function ItemsPage() {
     setLoading(true);
     db.update<Item>("items", itemToEdit, {
       quantity:
-        items.find((i) => i.id === itemToEdit).quantity +
+        historyItems.find((i) => i.id === itemToEdit).quantity +
         form.getFieldsValue().adding,
     }).then(() => {
-      const oldItems = [...items];
+      const oldItems = [...historyItems];
       const index = oldItems.findIndex((item) => item.id === itemToEdit);
       oldItems[index] = {
         ...oldItems[index],
         quantity:
-          items.find((i) => i.id === itemToEdit).quantity +
+          historyItems.find((i) => i.id === itemToEdit).quantity +
           form.getFieldsValue().adding,
       };
       setItems(oldItems);
       setLoading(false);
       setCreatingItem(false);
-      db.create("inventory_history", {
-        type: "add",
-        item: oldItems[index].id,
-        quantity: form.getFieldsValue().adding,
-      });
       form.resetFields();
     });
   }
   const filteredItems = useMemo(
     () =>
-      items
-        .filter((item) => item.name.includes(searchTerm))
+      historyItems
+        // .filter((item) => item.name.includes(searchTerm))
         .sort(sortBy("name", true)),
-    [items, searchTerm]
+    [historyItems, searchTerm]
   );
   return (
     <div style={{ padding: 24 }}>
-      <Typography.Title>Items e Inventario</Typography.Title>
+      <Typography.Title>Historial</Typography.Title>
       <Row gutter={10} style={{ marginBottom: 24 }}>
         <Col md={1}>
           <Button
@@ -123,10 +120,10 @@ function ItemsPage() {
         </Col>
       </Row>
       <Table
+        rowClassName={"table-row-green"}
         dataSource={filteredItems}
         pagination={{ pageSize: 6 }}
         columns={[
-          { title: "Id", dataIndex: "id", key: "id" },
           { title: "Producto", dataIndex: "name" },
           { title: "Precio Delivery", dataIndex: "delivery_price" },
           { title: "Precio Tienda", dataIndex: "store_price" },
@@ -134,50 +131,7 @@ function ItemsPage() {
           {
             title: "Action",
             key: "action",
-            render: (text, record) => (
-              <Space size="middle">
-                <Button
-                  onClick={() => {
-                    setCreatingItem(true);
-                    form.setFieldsValue({ ...record });
-                    setItemToEdit(record.id);
-                  }}
-                >
-                  Editar
-                </Button>
-                <Button
-                  loading={loadingDelete && record.id === itemToDelte}
-                  onClick={() => {
-                    setItemToDelete(record.id);
-                    setLoadingDelete(true);
-                    db.delete<Item>("items", record.id).then(() => {
-                      setLoadingDelete(false);
-                      const oldItems = [...items];
-                      oldItems.splice(
-                        oldItems.findIndex((item) => item.id === record.id),
-                        1
-                      );
-                      setItems(oldItems);
-                      setItemToDelete("");
-                    });
-                  }}
-                  danger
-                >
-                  Borrar
-                </Button>
-                <Button
-                  type="primary"
-                  onClick={() => {
-                    form.setFieldsValue({ ...record });
-                    setCreatingItem(true);
-                    setAdding(true);
-                    setItemToEdit(record.id);
-                  }}
-                >
-                  Añadir
-                </Button>
-              </Space>
-            ),
+            render: (text, record) => <Space size="middle"></Space>,
           },
         ]}
       />
@@ -246,4 +200,4 @@ function ItemsPage() {
   );
 }
 
-export default ItemsPage;
+export default HistoryPage;

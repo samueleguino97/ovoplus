@@ -29,6 +29,7 @@ const sideLinks = [
   },
   { path: "/items", label: "Items", icon: <ContainerOutlined /> },
   { path: "/orders", label: "H. de Pedidos", icon: <DatabaseOutlined /> },
+  { path: "/history", label: "Historial", icon: <DatabaseOutlined /> },
   { path: "/settings", label: "Settings", icon: <SettingOutlined /> },
 ];
 

@@ -19,9 +19,6 @@ import { OrderProvider } from "context/OrderContext";
 import Step3 from "@components/order/Step3";
 import Step4 from "@components/order/Step4";
 
-type OrderForm = Customer & Order & { order_hour: Date };
-const orderFormSchema = yup.object().shape({});
-
 const orderRegistrationSteps = [
   { title: "Busqueda del cliente", Content: Step1 },
   { title: "Verificacion de Datos", Content: Step2 },
@@ -34,33 +31,36 @@ function OrderPage() {
 
   const [customer, setCustomer] = useState<Customer>();
 
-  const [orderItems, setOrderItems] = useState<Item[]>([]);
-  const [orderSearch, setOrderSearch] = useState<string>("");
-
   const [items, setItems] = useState<Item[]>([]);
   const db = useDb();
   useEffect(() => {
     db.get<Item>("items").then(setItems);
   }, []);
-
-  const onSubmit: SubmitHandler<OrderForm> = async (data) => {};
-
-  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-  function closeModal() {
-    setModalIsOpen(false);
-  }
   const { Content } = orderRegistrationSteps[currentStep];
 
-  async function placeOrder(items, customer) {
+  async function placeOrder(orderItems: Item[], customer: Customer) {
     await db.create<Order>("orders", {
       customer,
-      items,
+      items: orderItems,
       person_in_charge: "",
       payment_type: "cash",
       order_time_of_day: "morning",
       order_date: new Date(),
       clarification: "",
     });
+    for (let index = 0; index < orderItems.length; index++) {
+      const item = orderItems[index];
+      const orgItem = items.find((i) => i.id === item.id);
+      await db.update<Item>("items", item.id, {
+        quantity: orgItem.quantity - item.quantity,
+      });
+
+      await db.create("inventory_history", {
+        type: "taken",
+        item: item.id,
+        quantity: item.quantity,
+      });
+    }
   }
 
   async function handleNextStep(value: any) {
@@ -74,7 +74,6 @@ function OrderPage() {
         setCurrentStep((curr) => curr + 1);
         break;
       case 2:
-        setOrderItems(value);
         await placeOrder(value, customer);
         setCurrentStep((curr) => curr + 1);
         break;
@@ -98,41 +97,6 @@ function OrderPage() {
           <Content onNextStep={handleNextStep} />
         </OrderProvider>
       </Row>
-
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Copia y Pega a Whatsapp"
-        style={{
-          content: {
-            border: "1px solid black",
-            borderRadius: "4px",
-            bottom: "auto",
-            minHeight: "10rem",
-            left: "50%",
-            padding: "2rem",
-            position: "fixed",
-            right: "auto",
-            top: "50%",
-            transform: "translate(-50%,-50%)",
-            minWidth: "20rem",
-            width: "80%",
-            maxWidth: "60rem",
-          },
-        }}
-      >
-        <h2>Copia y Pega en Whatsapp</h2>
-        <pre>{`
-cbfh
-sdg
-s
-gd
-gsd
-gsdg
-sd
-        `}</pre>
-        <Button onClick={closeModal}>Cerrar y Guardar pedido</Button>
-      </Modal>
     </div>
   );
 }
