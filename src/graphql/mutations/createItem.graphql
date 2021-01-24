@@ -1,0 +1,21 @@
+mutation CreateItem(
+  $store_price: numeric = 10
+  $name: String = ""
+  $quantity: Int = 10
+  $delivery_price: numeric = 10
+) {
+  insert_delivery_items_one(
+    object: {
+      delivery_price: $delivery_price
+      name: $name
+      quantity: $quantity
+      store_price: $store_price
+    }
+  ) {
+    delivery_price
+    id
+    name
+    quantity
+    store_price
+  }
+}

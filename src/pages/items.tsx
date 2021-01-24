@@ -1,4 +1,3 @@
-import useDb from "@hooks/useDb";
 import {
   Button,
   Col,
@@ -11,13 +10,23 @@ import {
   Table,
   Typography,
 } from "antd";
-import { Item } from "models/Item";
-import React, { useEffect, useMemo, useState } from "react";
+import {
+  useCreateItemMutation,
+  useDeleteItemMutation,
+  useItemsQuery,
+  useUpdateItemMutation,
+  useIncrementItemMutation,
+} from "generated/graphql";
+import React, { useMemo, useState } from "react";
 import { sortBy } from "utils/sortBy";
 
 function ItemsPage() {
-  const db = useDb();
-  const [items, setItems] = useState<Item[]>([]);
+  const [, insertItem] = useCreateItemMutation();
+  const [, removeItem] = useDeleteItemMutation();
+  const [, update] = useUpdateItemMutation();
+  const [, increment] = useIncrementItemMutation();
+  const [{ data }] = useItemsQuery();
+  const items = data ? data.delivery_items : [];
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [creatingItem, setCreatingItem] = useState<boolean>(false);
@@ -31,70 +40,53 @@ function ItemsPage() {
 
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    db.get<Item>("items").then(setItems);
-  }, []);
-
   async function createItem() {
     setLoading(true);
-
-    db.create<Item>("items", {
-      ...form.getFieldsValue(),
-    }).then(async (created) => {
-      setItems([...items, created]);
-      await db.create("inventory_history", {
-        type: "initial",
-        item: created.id,
-        quantity: created.quantity,
-      });
+    insertItem(form.getFieldsValue()).then((res) => {
+      // res.data.insert_delivery_items_one;
       setLoading(false);
       setCreatingItem(false);
     });
   }
   function updateItem() {
     setLoading(true);
-    db.update<Item>("items", itemToEdit, {
+    const oldItems = [...items];
+    const index = oldItems.findIndex((item) => item.id === +itemToEdit);
+    update({
+      ...oldItems[index],
       ...form.getFieldsValue(),
+      id: +itemToEdit,
     }).then(() => {
-      const oldItems = [...items];
-      const index = oldItems.findIndex((item) => item.id === itemToEdit);
-      oldItems[index] = { ...oldItems[index], ...form.getFieldsValue() };
-      setItems(oldItems);
       setLoading(false);
       setCreatingItem(false);
     });
   }
   function addItems() {
     setLoading(true);
-    db.update<Item>("items", itemToEdit, {
-      quantity:
-        items.find((i) => i.id === itemToEdit).quantity +
-        form.getFieldsValue().adding,
-    }).then(() => {
-      const oldItems = [...items];
-      const index = oldItems.findIndex((item) => item.id === itemToEdit);
-      oldItems[index] = {
-        ...oldItems[index],
-        quantity:
-          items.find((i) => i.id === itemToEdit).quantity +
-          form.getFieldsValue().adding,
-      };
-      setItems(oldItems);
-      setLoading(false);
-      setCreatingItem(false);
-      db.create("inventory_history", {
-        type: "add",
-        item: oldItems[index].id,
-        quantity: form.getFieldsValue().adding,
-      });
-      form.resetFields();
-    });
+    increment({ id: +itemToEdit, quantity: form.getFieldsValue().adding }).then(
+      () => {
+        // const oldItems = [...items];
+        // const index = oldItems.findIndex((item) => item.id === +itemToEdit);
+        // oldItems[index] = {
+        //   ...oldItems[index],
+        //   quantity:
+        //     items.find((i) => i.id === +itemToEdit).quantity +
+        //     form.getFieldsValue().adding,
+        // };
+        setLoading(false);
+        setCreatingItem(false);
+        // db.create("inventory_history", {
+        //   type: "add",
+        //   item: oldItems[index].id,
+        //   quantity: form.getFieldsValue().adding,
+        // });
+        form.resetFields();
+      }
+    );
   }
   const filteredItems = useMemo(
     () =>
-      items
-        .filter((item) => item.name.includes(searchTerm))
-        .sort(sortBy("name", true)),
+      items.filter((item) => item.name.includes(searchTerm)).sort(sortBy("id")),
     [items, searchTerm]
   );
   return (
@@ -140,25 +132,18 @@ function ItemsPage() {
                   onClick={() => {
                     setCreatingItem(true);
                     form.setFieldsValue({ ...record });
-                    setItemToEdit(record.id);
+                    setItemToEdit(record.id.toString());
                   }}
                 >
                   Editar
                 </Button>
                 <Button
-                  loading={loadingDelete && record.id === itemToDelte}
+                  loading={loadingDelete && record.id === +itemToDelte}
                   onClick={() => {
-                    setItemToDelete(record.id);
                     setLoadingDelete(true);
-                    db.delete<Item>("items", record.id).then(() => {
+                    setItemToDelete(record.id.toString());
+                    removeItem({ _eq: record.id }).then(() => {
                       setLoadingDelete(false);
-                      const oldItems = [...items];
-                      oldItems.splice(
-                        oldItems.findIndex((item) => item.id === record.id),
-                        1
-                      );
-                      setItems(oldItems);
-                      setItemToDelete("");
                     });
                   }}
                   danger
@@ -171,7 +156,7 @@ function ItemsPage() {
                     form.setFieldsValue({ ...record });
                     setCreatingItem(true);
                     setAdding(true);
-                    setItemToEdit(record.id);
+                    setItemToEdit(record.id.toString());
                   }}
                 >
                   Añadir
@@ -183,6 +168,10 @@ function ItemsPage() {
       />
 
       <Modal
+        afterClose={() => {
+          setAdding(false);
+          form.resetFields();
+        }}
         title={adding ? "Añadir items" : "Crear Item Nuevo"}
         visible={creatingItem}
         confirmLoading={loading}

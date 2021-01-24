@@ -1,0 +1,8 @@
+mutation DeleteItem($_eq: Int) {
+  delete_delivery_items(where: { id: { _eq: $_eq } }) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}

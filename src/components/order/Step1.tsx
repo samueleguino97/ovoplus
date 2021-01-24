@@ -1,9 +1,16 @@
 import useDb from "@hooks/useDb";
 import { Button, Input, message, Modal, Row, Typography } from "antd";
 import { Form } from "antd";
+import {
+  CustomerDocument,
+  CustomerQuery,
+  CustomerQueryVariables,
+  useCreateCustomerMutation,
+} from "generated/graphql";
 import { Customer } from "models/Customer";
 import React, { useState } from "react";
 import { StepProps } from "types/types";
+import { useClient } from "urql";
 
 function Step1({ onNextStep }: StepProps) {
   const [form] = Form.useForm();
@@ -12,31 +19,37 @@ function Step1({ onNextStep }: StepProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [creatingCustomer, setCreatingCustomer] = useState<boolean>(false);
   const [modalLoading, setModalLoading] = useState<boolean>(false);
+  const [, insertCustomer] = useCreateCustomerMutation();
 
+  const client = useClient();
   async function searchForClient(value) {
     setLoading(true);
-    const clientFound = (
-      await db.query<Customer>("customers", ["cellphone", "==", value.phone])
-    )[0];
-    console.log(clientFound);
-    if (!!clientFound) {
-      setLoading(false);
-      onNextStep(clientFound);
-    } else {
-      message.warning("Porfavor registra la informacion del nuevo cliente");
-      setCreatingCustomer(true);
-    }
+    client
+      .query<CustomerQuery, CustomerQueryVariables>(CustomerDocument, {
+        phone: value.phone,
+      })
+      .toPromise()
+      .then((result) => {
+        const clientFound = result.data.delivery_customer[0];
+        if (!!clientFound) {
+          setLoading(false);
+          onNextStep(clientFound);
+        } else {
+          message.warning("Porfavor registra la informacion del nuevo cliente");
+          setCreatingCustomer(true);
+        }
+      });
   }
 
   async function createNewClient() {
     setModalLoading(true);
-    console.log(modalForm.getFieldsValue());
-    const newCustomer = await db.create<Customer>(
-      "customers",
-      modalForm.getFieldsValue()
-    );
+    const res = await insertCustomer({
+      customer_info: modalForm.getFieldsValue(),
+    });
+    console.log(res);
+
     setModalLoading(false);
-    onNextStep(newCustomer);
+    onNextStep(res.data.insert_delivery_customer_one);
     setCreatingCustomer(false);
   }
 

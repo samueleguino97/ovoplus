@@ -1,0 +1,9 @@
+query Items {
+  delivery_items {
+    id
+    name
+    quantity
+    store_price
+    delivery_price
+  }
+}

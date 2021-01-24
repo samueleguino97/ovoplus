@@ -1,0 +1,11 @@
+mutation IncrementItem($id: Int, $quantity: Int) {
+  update_delivery_items(
+    where: { id: { _eq: $id } }
+    _inc: { quantity: $quantity }
+  ) {
+    returning {
+      id
+      quantity
+    }
+  }
+}

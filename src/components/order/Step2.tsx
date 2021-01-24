@@ -2,6 +2,7 @@ import useDb from "@hooks/useDb";
 import { Button, Input, message, Modal, Row, Typography } from "antd";
 import { Form } from "antd";
 import { useOrderState } from "context/OrderContext";
+import { useUpdateCustomerMutation } from "generated/graphql";
 import { Customer } from "models/Customer";
 import React, { useState } from "react";
 import { StepProps } from "types/types";
@@ -10,21 +11,20 @@ function Step2({ onNextStep }: StepProps) {
   const [form] = Form.useForm();
   const db = useDb();
   const [loading, setLoading] = useState<boolean>(false);
+  const [, updateCustomer] = useUpdateCustomerMutation();
 
   const orderForm = useOrderState();
 
-  console.log(orderForm);
-
-  async function searchForClient(values) {
+  async function correctClient(values) {
     setLoading(true);
-    await db.update<Customer>("customers", orderForm.id, values);
+    await updateCustomer({ id: orderForm.id, ...values });
     setLoading(false);
     onNextStep(values);
   }
 
   return (
     <Row justify="center">
-      <Form layout="vertical" form={form} onFinish={searchForClient}>
+      <Form layout="vertical" form={form} onFinish={correctClient}>
         <Typography.Title>Verifica la informacion del cliente</Typography.Title>
         <Form.Item
           label="Numero de Celular"

@@ -1,0 +1,16 @@
+mutation CreateCustomer(
+  $customer_info: delivery_customer_insert_input! = {
+    NIT: ""
+    address: ""
+    full_name: ""
+    phone: ""
+  }
+) {
+  insert_delivery_customer_one(object: $customer_info) {
+    NIT
+    address
+    full_name
+    id
+    phone
+  }
+}

@@ -1,0 +1,9 @@
+query Customer($phone: String = "") {
+  delivery_customer(limit: 1, where: { phone: { _eq: $phone } }) {
+    NIT
+    address
+    full_name
+    id
+    phone
+  }
+}

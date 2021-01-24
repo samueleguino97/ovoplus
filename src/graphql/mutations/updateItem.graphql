@@ -1,0 +1,25 @@
+mutation UpdateItem(
+  $id: Int
+  $name: String
+  $quantity: Int
+  $store_price: numeric
+  $delivery_price: numeric
+) {
+  update_delivery_items(
+    _set: {
+      name: $name
+      quantity: $quantity
+      delivery_price: $delivery_price
+      store_price: $store_price
+    }
+    where: { id: { _eq: $id } }
+  ) {
+    returning {
+      id
+      delivery_price
+      name
+      quantity
+      store_price
+    }
+  }
+}
