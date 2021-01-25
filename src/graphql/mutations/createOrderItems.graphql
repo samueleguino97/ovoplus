@@ -1,0 +1,11 @@
+mutation CreateOrderItems($objects: [delivery_order_items_insert_input!]!) {
+  insert_delivery_order_items(objects: $objects) {
+    returning {
+      id
+      item_id
+      order_id
+      price
+      quantity
+    }
+  }
+}

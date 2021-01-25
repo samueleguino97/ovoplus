@@ -15,11 +15,11 @@ function Step2({ onNextStep }: StepProps) {
 
   const orderForm = useOrderState();
 
-  async function correctClient(values) {
+  async function correctClient({ clarification, ...values }) {
     setLoading(true);
-    await updateCustomer({ id: orderForm.id, ...values });
+    await updateCustomer({ id: +orderForm.id, ...values });
     setLoading(false);
-    onNextStep(values);
+    onNextStep({ ...values, clarification });
   }
 
   return (
@@ -49,6 +49,13 @@ function Step2({ onNextStep }: StepProps) {
           name="address"
         >
           <Input placeholder="Direccion" disabled={loading} />
+        </Form.Item>
+        <Form.Item
+          initialValue={orderForm.clarification}
+          label="Aclaracion"
+          name="clarification"
+        >
+          <Input.TextArea placeholder="Aclaracion" disabled={loading} />
         </Form.Item>
         <Button htmlType="submit" type="primary">
           Todo Correcto

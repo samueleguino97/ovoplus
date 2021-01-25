@@ -6,9 +6,6 @@ import Button from "@components/general/Button";
 import Modal from "react-modal";
 import { Order } from "models/Order";
 import { Customer } from "models/Customer";
-import Autocomplete from "react-autocomplete";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Item } from "models/Item";
 import useDb from "@hooks/useDb";
@@ -18,6 +15,12 @@ import Step2 from "@components/order/Step2";
 import { OrderProvider } from "context/OrderContext";
 import Step3 from "@components/order/Step3";
 import Step4 from "@components/order/Step4";
+import {
+  useCreateOrderMutation,
+  useCreateOrderItemsMutation,
+  useIncrementItemMutation,
+  useItemsQuery,
+} from "generated/graphql";
 
 const orderRegistrationSteps = [
   { title: "Busqueda del cliente", Content: Step1 },
@@ -30,36 +33,41 @@ function OrderPage() {
   const [currentStep, setCurrentStep] = useState(0);
 
   const [customer, setCustomer] = useState<Customer>();
+  const [clarification, setClarification] = useState("");
 
-  const [items, setItems] = useState<Item[]>([]);
-  const db = useDb();
-  useEffect(() => {
-    db.get<Item>("items").then(setItems);
-  }, []);
+  const [result] = useItemsQuery();
+  const items = result.data?.delivery_items || [];
   const { Content } = orderRegistrationSteps[currentStep];
+  const [, createOrder] = useCreateOrderMutation();
+  const [, createOrderItems] = useCreateOrderItemsMutation();
+  const [, incrementItemQuantity] = useIncrementItemMutation();
 
-  async function placeOrder(orderItems: Item[], customer: Customer) {
-    await db.create<Order>("orders", {
-      customer,
-      items: orderItems,
-      person_in_charge: "",
-      payment_type: "cash",
-      order_time_of_day: "morning",
+  async function placeOrder(orderItems: any[], customer: Customer) {
+    const res = await createOrder({
+      clarification,
       order_date: new Date(),
-      clarification: "",
+      order_time_of_day: "",
+      payment_type: "cash",
+      person_in_charge: "",
+      customer_id: +customer.id,
+      total: orderItems.reduce((map, next) => {
+        return map + +next.price;
+      }, 0),
     });
+    const newOrder = res.data.insert_delivery_order_one;
+    await createOrderItems({
+      objects: orderItems.map((i) => ({
+        order_id: newOrder.id,
+        item_id: i.id,
+        price: i.price,
+        quantity: i.quantity,
+      })),
+    });
+
     for (let index = 0; index < orderItems.length; index++) {
       const item = orderItems[index];
       const orgItem = items.find((i) => i.id === item.id);
-      await db.update<Item>("items", item.id, {
-        quantity: orgItem.quantity - item.quantity,
-      });
-
-      await db.create("inventory_history", {
-        type: "taken",
-        item: item.id,
-        quantity: item.quantity,
-      });
+      await incrementItemQuantity({ id: +orgItem.id, quantity: item.quantity });
     }
   }
 
@@ -70,6 +78,7 @@ function OrderPage() {
         setCurrentStep((curr) => curr + 1);
         break;
       case 1:
+        setClarification(value.clarification);
         setCustomer((curr) => ({ ...curr, ...value }));
         setCurrentStep((curr) => curr + 1);
         break;

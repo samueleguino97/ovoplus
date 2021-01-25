@@ -1,0 +1,30 @@
+mutation CreateOrder(
+  $clarification: String
+  $customer_id: Int
+  $order_date: date
+  $order_time_of_day: String
+  $payment_type: String
+  $person_in_charge: String
+  $total: Int
+) {
+  insert_delivery_order_one(
+    object: {
+      clarification: $clarification
+      customer_id: $customer_id
+      order_date: $order_date
+      order_time_of_day: $order_time_of_day
+      payment_type: $payment_type
+      person_in_charge: $person_in_charge
+      total: $total
+    }
+  ) {
+    clarification
+    customer_id
+    id
+    order_date
+    order_time_of_day
+    payment_type
+    person_in_charge
+    total
+  }
+}

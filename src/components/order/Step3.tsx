@@ -15,6 +15,7 @@ import {
 } from "antd";
 import { Form } from "antd";
 import { useOrderState } from "context/OrderContext";
+import { useItemsQuery } from "generated/graphql";
 import { Customer } from "models/Customer";
 import { Item } from "models/Item";
 import React, { useEffect, useState } from "react";
@@ -24,6 +25,8 @@ function Step3({ onNextStep }: StepProps) {
   const [form] = Form.useForm();
   const db = useDb();
   const [loading, setLoading] = useState<boolean>(false);
+  const [res] = useItemsQuery();
+  const items = res.data?.delivery_items || [];
   const [orderItems, setOrderItems] = useState<
     {
       name: string;
@@ -33,12 +36,6 @@ function Step3({ onNextStep }: StepProps) {
       id: string;
     }[]
   >([]);
-
-  const [items, setItems] = useState<Item[]>([]);
-
-  useEffect(() => {
-    db.get<Item>("items").then(setItems);
-  }, []);
 
   function addItem(item) {
     setOrderItems([

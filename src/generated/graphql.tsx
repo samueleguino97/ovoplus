@@ -2045,6 +2045,41 @@ export type CreateItemMutation = (
   )> }
 );
 
+export type CreateOrderMutationVariables = Exact<{
+  clarification?: Maybe<Scalars['String']>;
+  customer_id?: Maybe<Scalars['Int']>;
+  order_date?: Maybe<Scalars['date']>;
+  order_time_of_day?: Maybe<Scalars['String']>;
+  payment_type?: Maybe<Scalars['String']>;
+  person_in_charge?: Maybe<Scalars['String']>;
+  total?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type CreateOrderMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_delivery_order_one?: Maybe<(
+    { __typename?: 'delivery_order' }
+    & Pick<Delivery_Order, 'clarification' | 'customer_id' | 'id' | 'order_date' | 'order_time_of_day' | 'payment_type' | 'person_in_charge' | 'total'>
+  )> }
+);
+
+export type CreateOrderItemsMutationVariables = Exact<{
+  objects: Array<Delivery_Order_Items_Insert_Input> | Delivery_Order_Items_Insert_Input;
+}>;
+
+
+export type CreateOrderItemsMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_delivery_order_items?: Maybe<(
+    { __typename?: 'delivery_order_items_mutation_response' }
+    & { returning: Array<(
+      { __typename?: 'delivery_order_items' }
+      & Pick<Delivery_Order_Items, 'id' | 'item_id' | 'order_id' | 'price' | 'quantity'>
+    )> }
+  )> }
+);
+
 export type DeleteItemMutationVariables = Exact<{
   _eq?: Maybe<Scalars['Int']>;
 }>;
@@ -2172,6 +2207,43 @@ export const CreateItemDocument = gql`
 
 export function useCreateItemMutation() {
   return Urql.useMutation<CreateItemMutation, CreateItemMutationVariables>(CreateItemDocument);
+};
+export const CreateOrderDocument = gql`
+    mutation CreateOrder($clarification: String, $customer_id: Int, $order_date: date, $order_time_of_day: String, $payment_type: String, $person_in_charge: String, $total: Int) {
+  insert_delivery_order_one(
+    object: {clarification: $clarification, customer_id: $customer_id, order_date: $order_date, order_time_of_day: $order_time_of_day, payment_type: $payment_type, person_in_charge: $person_in_charge, total: $total}
+  ) {
+    clarification
+    customer_id
+    id
+    order_date
+    order_time_of_day
+    payment_type
+    person_in_charge
+    total
+  }
+}
+    `;
+
+export function useCreateOrderMutation() {
+  return Urql.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(CreateOrderDocument);
+};
+export const CreateOrderItemsDocument = gql`
+    mutation CreateOrderItems($objects: [delivery_order_items_insert_input!]!) {
+  insert_delivery_order_items(objects: $objects) {
+    returning {
+      id
+      item_id
+      order_id
+      price
+      quantity
+    }
+  }
+}
+    `;
+
+export function useCreateOrderItemsMutation() {
+  return Urql.useMutation<CreateOrderItemsMutation, CreateOrderItemsMutationVariables>(CreateOrderItemsDocument);
 };
 export const DeleteItemDocument = gql`
     mutation DeleteItem($_eq: Int) {
