@@ -33,6 +33,7 @@ function OrderPage() {
   const [currentStep, setCurrentStep] = useState(0);
 
   const [customer, setCustomer] = useState<Customer>();
+  const [isDelivery, setIsDelivery] = useState(true);
   const [clarification, setClarification] = useState("");
 
   const [result] = useItemsQuery();
@@ -71,10 +72,11 @@ function OrderPage() {
     }
   }
 
-  async function handleNextStep(value: any) {
+  async function handleNextStep(value: any, step1Delivery: boolean) {
     switch (currentStep) {
       case 0:
         setCustomer(value);
+        setIsDelivery(step1Delivery);
         setCurrentStep((curr) => curr + 1);
         break;
       case 1:
@@ -102,7 +104,7 @@ function OrderPage() {
         justify="center"
         align="middle"
       >
-        <OrderProvider orderForm={{ ...customer }}>
+        <OrderProvider orderForm={{ ...customer, isDelivery }}>
           <Content onNextStep={handleNextStep} />
         </OrderProvider>
       </Row>

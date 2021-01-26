@@ -120,13 +120,25 @@ function ItemsPage() {
         columns={[
           { title: "Id", dataIndex: "id", key: "id" },
           { title: "Producto", dataIndex: "name" },
-          { title: "Precio Delivery", dataIndex: "delivery_price" },
-          { title: "Precio Tienda", dataIndex: "store_price" },
+          {
+            title: "Precio Delivery",
+            dataIndex: "delivery_price",
+            render: (value) => {
+              return "Bs." + value;
+            },
+          },
+          {
+            title: "Precio Tienda",
+            dataIndex: "store_price",
+            render: (value) => {
+              return "Bs." + value;
+            },
+          },
           { title: "Cantidad en Inventario", dataIndex: "quantity" },
           {
             title: "Action",
             key: "action",
-            render: (text, record) => (
+            render: (_, record) => (
               <Space size="middle">
                 <Button
                   onClick={() => {
@@ -215,7 +227,12 @@ function ItemsPage() {
                   name="store_price"
                   label="Precio Tienda"
                 >
-                  <InputNumber />
+                  <InputNumber
+                    formatter={(value) =>
+                      `Bs. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }
+                    parser={(value) => value.replace(/\Bs\s?|(,*)/g, "")}
+                  />
                 </Form.Item>
               </Col>
               <Col md={8}>
@@ -224,7 +241,12 @@ function ItemsPage() {
                   name="delivery_price"
                   label="Precio Delivery"
                 >
-                  <InputNumber />
+                  <InputNumber
+                    formatter={(value) =>
+                      `Bs. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    }
+                    parser={(value) => value.replace(/\Bs\s?|(,*)/g, "")}
+                  />
                 </Form.Item>
               </Col>
             </Row>

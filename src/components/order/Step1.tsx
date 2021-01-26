@@ -1,5 +1,14 @@
 import useDb from "@hooks/useDb";
-import { Button, Input, message, Modal, Row, Typography } from "antd";
+import {
+  Button,
+  Input,
+  message,
+  Modal,
+  Row,
+  Space,
+  Switch,
+  Typography,
+} from "antd";
 import { Form } from "antd";
 import {
   CustomerDocument,
@@ -33,7 +42,7 @@ function Step1({ onNextStep }: StepProps) {
         const clientFound = result.data.delivery_customer[0];
         if (!!clientFound) {
           setLoading(false);
-          onNextStep(clientFound);
+          onNextStep(clientFound, form.getFieldValue("delivery"));
         } else {
           message.warning("Porfavor registra la informacion del nuevo cliente");
           setCreatingCustomer(true);
@@ -46,10 +55,12 @@ function Step1({ onNextStep }: StepProps) {
     const res = await insertCustomer({
       customer_info: modalForm.getFieldsValue(),
     });
-    console.log(res);
 
     setModalLoading(false);
-    onNextStep(res.data.insert_delivery_customer_one);
+    onNextStep(
+      res.data.insert_delivery_customer_one,
+      form.getFieldValue("delivery")
+    );
     setCreatingCustomer(false);
   }
 
@@ -62,9 +73,26 @@ function Step1({ onNextStep }: StepProps) {
         <Form.Item name="phone">
           <Input placeholder="Numero del cliente" disabled={loading} />
         </Form.Item>
-        <Button htmlType="submit" loading={loading} type="primary" size="large">
-          Buscar Cliente
-        </Button>
+        <Row style={{ marginTop: 18 }} align="middle">
+          <Space>
+            <Form.Item
+              style={{ marginBottom: 0 }}
+              initialValue={true}
+              label="Delivery"
+              name="delivery"
+            >
+              <Switch />
+            </Form.Item>
+            <Button
+              htmlType="submit"
+              loading={loading}
+              type="primary"
+              size="large"
+            >
+              Buscar Cliente
+            </Button>
+          </Space>
+        </Row>
       </Form>
 
       <Modal

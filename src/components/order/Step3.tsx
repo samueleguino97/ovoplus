@@ -23,7 +23,8 @@ import { StepProps } from "types/types";
 
 function Step3({ onNextStep }: StepProps) {
   const [form] = Form.useForm();
-  const db = useDb();
+  const orderForm = useOrderState();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [res] = useItemsQuery();
   const items = res.data?.delivery_items || [];
@@ -43,8 +44,8 @@ function Step3({ onNextStep }: StepProps) {
       {
         name: item.name,
         quantity: 1,
-        price: item.delivery_price,
-        total: item.delivery_price,
+        price: orderForm.isDelivery ? item.delivery_price : item.store_price,
+        total: orderForm.isDelivery ? item.delivery_price : item.store_price,
         id: item.id,
       },
     ]);

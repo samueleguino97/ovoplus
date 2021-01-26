@@ -5517,12 +5517,6 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "order_customer_id_key",
-            "description": "unique or primary key constraint",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "order_pkey",
             "description": "unique or primary key constraint",
             "isDeprecated": false,

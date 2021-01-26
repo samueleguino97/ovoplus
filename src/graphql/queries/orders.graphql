@@ -1,0 +1,24 @@
+query Orders {
+  delivery_order {
+    clarification
+    id
+    order_date
+    order_time_of_day
+    payment_type
+    person_in_charge
+    total
+    items {
+      id
+      price
+      quantity
+      item {
+        name
+      }
+    }
+    customer {
+      full_name
+      id
+      phone
+    }
+  }
+}

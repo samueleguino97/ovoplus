@@ -851,8 +851,6 @@ export type Delivery_Order_Bool_Exp = {
 /** unique or primary key constraints on table "delivery.order" */
 export enum Delivery_Order_Constraint {
   /** unique or primary key constraint */
-  OrderCustomerIdKey = 'order_customer_id_key',
-  /** unique or primary key constraint */
   OrderPkey = 'order_pkey'
 }
 
@@ -2175,6 +2173,28 @@ export type ItemsQuery = (
   )> }
 );
 
+export type OrdersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OrdersQuery = (
+  { __typename?: 'query_root' }
+  & { delivery_order: Array<(
+    { __typename?: 'delivery_order' }
+    & Pick<Delivery_Order, 'clarification' | 'id' | 'order_date' | 'order_time_of_day' | 'payment_type' | 'person_in_charge' | 'total'>
+    & { items: Array<(
+      { __typename?: 'delivery_order_items' }
+      & Pick<Delivery_Order_Items, 'id' | 'price' | 'quantity'>
+      & { item: (
+        { __typename?: 'delivery_items' }
+        & Pick<Delivery_Items, 'name'>
+      ) }
+    )>, customer: (
+      { __typename?: 'delivery_customer' }
+      & Pick<Delivery_Customer, 'full_name' | 'id' | 'phone'>
+    ) }
+  )> }
+);
+
 
 export const CreateCustomerDocument = gql`
     mutation CreateCustomer($customer_info: delivery_customer_insert_input! = {NIT: "", address: "", full_name: "", phone: ""}) {
@@ -2339,4 +2359,34 @@ export const ItemsDocument = gql`
 
 export function useItemsQuery(options: Omit<Urql.UseQueryArgs<ItemsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ItemsQuery>({ query: ItemsDocument, ...options });
+};
+export const OrdersDocument = gql`
+    query Orders {
+  delivery_order {
+    clarification
+    id
+    order_date
+    order_time_of_day
+    payment_type
+    person_in_charge
+    total
+    items {
+      id
+      price
+      quantity
+      item {
+        name
+      }
+    }
+    customer {
+      full_name
+      id
+      phone
+    }
+  }
+}
+    `;
+
+export function useOrdersQuery(options: Omit<Urql.UseQueryArgs<OrdersQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<OrdersQuery>({ query: OrdersDocument, ...options });
 };
