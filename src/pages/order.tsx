@@ -21,6 +21,7 @@ import {
   useIncrementItemMutation,
   useItemsQuery,
 } from "generated/graphql";
+import { auth } from "config/firebase";
 
 const orderRegistrationSteps = [
   { title: "Busqueda del cliente", Content: Step1 },
@@ -49,7 +50,7 @@ function OrderPage() {
       order_date: new Date(),
       order_time_of_day: "",
       payment_type: "cash",
-      person_in_charge: "",
+      person_in_charge: auth().currentUser.email,
       customer_id: +customer.id,
       total: orderItems.reduce((map, next) => {
         return map + +next.price;
