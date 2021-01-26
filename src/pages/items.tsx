@@ -86,7 +86,11 @@ function ItemsPage() {
   }
   const filteredItems = useMemo(
     () =>
-      items.filter((item) => item.name.includes(searchTerm)).sort(sortBy("id")),
+      items
+        .filter((item) =>
+          item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .sort(sortBy("id")),
     [items, searchTerm]
   );
   return (
