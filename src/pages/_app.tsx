@@ -1,7 +1,7 @@
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import DashboardLayout from "../components/layouts/DashboardLayout";
-import { initializeFirebase } from "../config/firebase";
+import { auth, initializeFirebase } from "../config/firebase";
 import "../styles/global.scss";
 
 import { createClient, dedupExchange, fetchExchange, Provider } from "urql";
@@ -12,6 +12,7 @@ import {
   CreateItemMutation,
 } from "../generated/graphql";
 import { sortBy } from "utils/sortBy";
+import AuthenticationPage from "./auth";
 initializeFirebase();
 
 const client = createClient({
@@ -46,11 +47,34 @@ const client = createClient({
 });
 
 function MyApp({ Component, pageProps }) {
+  const [is, setIs] = useState<boolean | undefined>(undefined);
+  function isLoggedIn(): Promise<boolean> {
+    return new Promise((resolve) => {
+      let unsub;
+      unsub = auth().onAuthStateChanged((user) => {
+        resolve(!!user);
+        unsub();
+      });
+    });
+  }
+
+  useEffect(() => {
+    (async () => {
+      setIs(await isLoggedIn());
+    })();
+  }, []);
+  if (typeof is === "undefined") {
+    return null;
+  }
   return (
     <Provider value={client}>
-      <DashboardLayout>
-        <Component {...pageProps} />
-      </DashboardLayout>
+      {is ? (
+        <DashboardLayout onLogout={() => setIs(false)}>
+          <Component {...pageProps} />
+        </DashboardLayout>
+      ) : (
+        <AuthenticationPage onSignIn={() => setIs(true)} />
+      )}
     </Provider>
   );
 }

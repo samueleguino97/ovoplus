@@ -11,13 +11,14 @@ import {
   FaBoxOpen,
   FaPlusSquare,
 } from "react-icons/fa";
-import { Layout, Menu } from "antd";
+import { Col, Layout, Menu, Space, Typography } from "antd";
 import {
   PlusSquareOutlined,
   DatabaseOutlined,
   ContainerOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
+import { auth } from "config/firebase";
 
 const { Header, Content, Sider } = Layout;
 
@@ -35,21 +36,42 @@ const sideLinks = [
 
 type DashboardLayoutProps = {
   children: React.ReactElement;
+  onLogout: Function;
 };
 
-function DashboardLayout({ children }: DashboardLayoutProps) {
+function DashboardLayout({ children, onLogout }: DashboardLayoutProps) {
   const router = useRouter();
   const selectedIndex = sideLinks.findIndex((i) => router.pathname === i.path);
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider>
         <div className="logo" />
+
         <Menu
           theme="dark"
           defaultSelectedKeys={["1"]}
           selectedKeys={[(selectedIndex + 1).toString()]}
           mode="inline"
         >
+          <Menu.Item style={{ height: 80, marginTop: 16 }}>
+            <Col>
+              <Typography.Title level={5} style={{ color: "white" }}>
+                {auth().currentUser.email}
+              </Typography.Title>
+              <div
+                onClick={() => {
+                  auth().signOut();
+                  onLogout();
+                }}
+              >
+                <Typography.Paragraph
+                  style={{ color: "white", opacity: 0.6, cursor: "pointer" }}
+                >
+                  Logout
+                </Typography.Paragraph>
+              </div>
+            </Col>
+          </Menu.Item>
           {sideLinks.map((link, index) => (
             <Menu.Item key={index + 1} icon={link.icon}>
               <Link href={link.path}>
