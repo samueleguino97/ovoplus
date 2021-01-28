@@ -231,12 +231,7 @@ function ItemsPage() {
                   name="store_price"
                   label="Precio Tienda"
                 >
-                  <InputNumber
-                    formatter={(value) =>
-                      `Bs. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }
-                    parser={(value) => value.replace(/\Bs\s?|(,*)/g, "")}
-                  />
+                  <InputNumber />
                 </Form.Item>
               </Col>
               <Col md={8}>
@@ -245,12 +240,7 @@ function ItemsPage() {
                   name="delivery_price"
                   label="Precio Delivery"
                 >
-                  <InputNumber
-                    formatter={(value) =>
-                      `Bs. ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }
-                    parser={(value) => value.replace(/\Bs\s?|(,*)/g, "")}
-                  />
+                  <InputNumber />
                 </Form.Item>
               </Col>
             </Row>
