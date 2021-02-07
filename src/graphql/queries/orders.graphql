@@ -2,6 +2,7 @@ query Orders {
   delivery_order {
     clarification
     id
+    status
     order_date
     order_time_of_day
     payment_type

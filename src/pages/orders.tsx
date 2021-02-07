@@ -39,7 +39,9 @@ function OrderHistoryPage() {
 
       <Table
         dataSource={
-          res?.data?.delivery_order.map((i) => ({ ...i, key: i.id })) || []
+          res?.data?.delivery_order
+            .sort(sortBy("id"))
+            .map((i) => ({ ...i, key: i.id })) || []
         }
         pagination={{ pageSize: 6 }}
         expandable={{
@@ -118,9 +120,9 @@ function OrderHistoryPage() {
           { title: "Id", dataIndex: "id", key: "id" },
           { title: "Fecha", dataIndex: "order_date", key: "order_date" },
           {
-            title: "Tiempo del Dia",
-            dataIndex: "order_time_of_day",
-            key: "order_time_of_day",
+            title: "Estado",
+            dataIndex: "status",
+            key: "status",
           },
           {
             title: "A Cargo",

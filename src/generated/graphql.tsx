@@ -745,6 +745,7 @@ export type Delivery_Order = {
   /** An object relationship */
   route?: Maybe<Delivery_Routes>;
   route_id?: Maybe<Scalars['Int']>;
+  status: Scalars['String'];
   total: Scalars['numeric'];
 };
 
@@ -852,6 +853,7 @@ export type Delivery_Order_Bool_Exp = {
   person_in_charge?: Maybe<String_Comparison_Exp>;
   route?: Maybe<Delivery_Routes_Bool_Exp>;
   route_id?: Maybe<Int_Comparison_Exp>;
+  status?: Maybe<String_Comparison_Exp>;
   total?: Maybe<Numeric_Comparison_Exp>;
 };
 
@@ -882,6 +884,7 @@ export type Delivery_Order_Insert_Input = {
   person_in_charge?: Maybe<Scalars['String']>;
   route?: Maybe<Delivery_Routes_Obj_Rel_Insert_Input>;
   route_id?: Maybe<Scalars['Int']>;
+  status?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['numeric']>;
 };
 
@@ -987,8 +990,6 @@ export type Delivery_Order_Items_Bool_Exp = {
 export enum Delivery_Order_Items_Constraint {
   /** unique or primary key constraint */
   OrderItemsItemIdKey = 'order_items_item_id_key',
-  /** unique or primary key constraint */
-  OrderItemsOrderIdKey = 'order_items_order_id_key',
   /** unique or primary key constraint */
   OrderItemsPkey = 'order_items_pkey'
 }
@@ -1270,6 +1271,7 @@ export type Delivery_Order_Max_Fields = {
   payment_type?: Maybe<Scalars['String']>;
   person_in_charge?: Maybe<Scalars['String']>;
   route_id?: Maybe<Scalars['Int']>;
+  status?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['numeric']>;
 };
 
@@ -1283,6 +1285,7 @@ export type Delivery_Order_Max_Order_By = {
   payment_type?: Maybe<Order_By>;
   person_in_charge?: Maybe<Order_By>;
   route_id?: Maybe<Order_By>;
+  status?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
 
@@ -1297,6 +1300,7 @@ export type Delivery_Order_Min_Fields = {
   payment_type?: Maybe<Scalars['String']>;
   person_in_charge?: Maybe<Scalars['String']>;
   route_id?: Maybe<Scalars['Int']>;
+  status?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['numeric']>;
 };
 
@@ -1310,6 +1314,7 @@ export type Delivery_Order_Min_Order_By = {
   payment_type?: Maybe<Order_By>;
   person_in_charge?: Maybe<Order_By>;
   route_id?: Maybe<Order_By>;
+  status?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
 
@@ -1348,6 +1353,7 @@ export type Delivery_Order_Order_By = {
   person_in_charge?: Maybe<Order_By>;
   route?: Maybe<Delivery_Routes_Order_By>;
   route_id?: Maybe<Order_By>;
+  status?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
 
@@ -1375,6 +1381,8 @@ export enum Delivery_Order_Select_Column {
   /** column name */
   RouteId = 'route_id',
   /** column name */
+  Status = 'status',
+  /** column name */
   Total = 'total'
 }
 
@@ -1388,6 +1396,7 @@ export type Delivery_Order_Set_Input = {
   payment_type?: Maybe<Scalars['String']>;
   person_in_charge?: Maybe<Scalars['String']>;
   route_id?: Maybe<Scalars['Int']>;
+  status?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['numeric']>;
 };
 
@@ -1477,6 +1486,8 @@ export enum Delivery_Order_Update_Column {
   PersonInCharge = 'person_in_charge',
   /** column name */
   RouteId = 'route_id',
+  /** column name */
+  Status = 'status',
   /** column name */
   Total = 'total'
 }
@@ -2678,7 +2689,7 @@ export type OrdersQuery = (
   { __typename?: 'query_root' }
   & { delivery_order: Array<(
     { __typename?: 'delivery_order' }
-    & Pick<Delivery_Order, 'clarification' | 'id' | 'order_date' | 'order_time_of_day' | 'payment_type' | 'person_in_charge' | 'total'>
+    & Pick<Delivery_Order, 'clarification' | 'id' | 'status' | 'order_date' | 'order_time_of_day' | 'payment_type' | 'person_in_charge' | 'total'>
     & { items: Array<(
       { __typename?: 'delivery_order_items' }
       & Pick<Delivery_Order_Items, 'id' | 'price' | 'quantity'>
@@ -2890,6 +2901,7 @@ export const OrdersDocument = gql`
   delivery_order {
     clarification
     id
+    status
     order_date
     order_time_of_day
     payment_type
