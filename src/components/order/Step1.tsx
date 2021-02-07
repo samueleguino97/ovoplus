@@ -77,7 +77,6 @@ function Step1({ onNextStep }: StepProps) {
           <Space>
             <Form.Item
               style={{ marginBottom: 0 }}
-              initialValue={true}
               label="Delivery"
               name="delivery"
             >
