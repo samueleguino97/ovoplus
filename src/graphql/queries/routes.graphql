@@ -1,0 +1,10 @@
+query Routes {
+  delivery_routes {
+    id
+    name
+    driver_name
+    driver_last
+    driver_ci
+    driver_plate
+  }
+}

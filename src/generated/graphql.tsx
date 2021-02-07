@@ -742,7 +742,10 @@ export type Delivery_Order = {
   order_time_of_day: Scalars['String'];
   payment_type: Scalars['String'];
   person_in_charge: Scalars['String'];
-  total: Scalars['Int'];
+  /** An object relationship */
+  route?: Maybe<Delivery_Routes>;
+  route_id?: Maybe<Scalars['Int']>;
+  total: Scalars['numeric'];
 };
 
 
@@ -821,6 +824,7 @@ export type Delivery_Order_Avg_Fields = {
   __typename?: 'delivery_order_avg_fields';
   customer_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  route_id?: Maybe<Scalars['Float']>;
   total?: Maybe<Scalars['Float']>;
 };
 
@@ -828,6 +832,7 @@ export type Delivery_Order_Avg_Fields = {
 export type Delivery_Order_Avg_Order_By = {
   customer_id?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  route_id?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
 
@@ -845,7 +850,9 @@ export type Delivery_Order_Bool_Exp = {
   order_time_of_day?: Maybe<String_Comparison_Exp>;
   payment_type?: Maybe<String_Comparison_Exp>;
   person_in_charge?: Maybe<String_Comparison_Exp>;
-  total?: Maybe<Int_Comparison_Exp>;
+  route?: Maybe<Delivery_Routes_Bool_Exp>;
+  route_id?: Maybe<Int_Comparison_Exp>;
+  total?: Maybe<Numeric_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "delivery.order" */
@@ -858,7 +865,8 @@ export enum Delivery_Order_Constraint {
 export type Delivery_Order_Inc_Input = {
   customer_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
-  total?: Maybe<Scalars['Int']>;
+  route_id?: Maybe<Scalars['Int']>;
+  total?: Maybe<Scalars['numeric']>;
 };
 
 /** input type for inserting data into table "delivery.order" */
@@ -872,7 +880,9 @@ export type Delivery_Order_Insert_Input = {
   order_time_of_day?: Maybe<Scalars['String']>;
   payment_type?: Maybe<Scalars['String']>;
   person_in_charge?: Maybe<Scalars['String']>;
-  total?: Maybe<Scalars['Int']>;
+  route?: Maybe<Delivery_Routes_Obj_Rel_Insert_Input>;
+  route_id?: Maybe<Scalars['Int']>;
+  total?: Maybe<Scalars['numeric']>;
 };
 
 /** columns and relationships of "delivery.order_items" */
@@ -1259,7 +1269,8 @@ export type Delivery_Order_Max_Fields = {
   order_time_of_day?: Maybe<Scalars['String']>;
   payment_type?: Maybe<Scalars['String']>;
   person_in_charge?: Maybe<Scalars['String']>;
-  total?: Maybe<Scalars['Int']>;
+  route_id?: Maybe<Scalars['Int']>;
+  total?: Maybe<Scalars['numeric']>;
 };
 
 /** order by max() on columns of table "delivery.order" */
@@ -1271,6 +1282,7 @@ export type Delivery_Order_Max_Order_By = {
   order_time_of_day?: Maybe<Order_By>;
   payment_type?: Maybe<Order_By>;
   person_in_charge?: Maybe<Order_By>;
+  route_id?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
 
@@ -1284,7 +1296,8 @@ export type Delivery_Order_Min_Fields = {
   order_time_of_day?: Maybe<Scalars['String']>;
   payment_type?: Maybe<Scalars['String']>;
   person_in_charge?: Maybe<Scalars['String']>;
-  total?: Maybe<Scalars['Int']>;
+  route_id?: Maybe<Scalars['Int']>;
+  total?: Maybe<Scalars['numeric']>;
 };
 
 /** order by min() on columns of table "delivery.order" */
@@ -1296,6 +1309,7 @@ export type Delivery_Order_Min_Order_By = {
   order_time_of_day?: Maybe<Order_By>;
   payment_type?: Maybe<Order_By>;
   person_in_charge?: Maybe<Order_By>;
+  route_id?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
 
@@ -1332,6 +1346,8 @@ export type Delivery_Order_Order_By = {
   order_time_of_day?: Maybe<Order_By>;
   payment_type?: Maybe<Order_By>;
   person_in_charge?: Maybe<Order_By>;
+  route?: Maybe<Delivery_Routes_Order_By>;
+  route_id?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
 
@@ -1357,6 +1373,8 @@ export enum Delivery_Order_Select_Column {
   /** column name */
   PersonInCharge = 'person_in_charge',
   /** column name */
+  RouteId = 'route_id',
+  /** column name */
   Total = 'total'
 }
 
@@ -1369,7 +1387,8 @@ export type Delivery_Order_Set_Input = {
   order_time_of_day?: Maybe<Scalars['String']>;
   payment_type?: Maybe<Scalars['String']>;
   person_in_charge?: Maybe<Scalars['String']>;
-  total?: Maybe<Scalars['Int']>;
+  route_id?: Maybe<Scalars['Int']>;
+  total?: Maybe<Scalars['numeric']>;
 };
 
 /** aggregate stddev on columns */
@@ -1377,6 +1396,7 @@ export type Delivery_Order_Stddev_Fields = {
   __typename?: 'delivery_order_stddev_fields';
   customer_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  route_id?: Maybe<Scalars['Float']>;
   total?: Maybe<Scalars['Float']>;
 };
 
@@ -1384,6 +1404,7 @@ export type Delivery_Order_Stddev_Fields = {
 export type Delivery_Order_Stddev_Order_By = {
   customer_id?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  route_id?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
 
@@ -1392,6 +1413,7 @@ export type Delivery_Order_Stddev_Pop_Fields = {
   __typename?: 'delivery_order_stddev_pop_fields';
   customer_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  route_id?: Maybe<Scalars['Float']>;
   total?: Maybe<Scalars['Float']>;
 };
 
@@ -1399,6 +1421,7 @@ export type Delivery_Order_Stddev_Pop_Fields = {
 export type Delivery_Order_Stddev_Pop_Order_By = {
   customer_id?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  route_id?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
 
@@ -1407,6 +1430,7 @@ export type Delivery_Order_Stddev_Samp_Fields = {
   __typename?: 'delivery_order_stddev_samp_fields';
   customer_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  route_id?: Maybe<Scalars['Float']>;
   total?: Maybe<Scalars['Float']>;
 };
 
@@ -1414,6 +1438,7 @@ export type Delivery_Order_Stddev_Samp_Fields = {
 export type Delivery_Order_Stddev_Samp_Order_By = {
   customer_id?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  route_id?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
 
@@ -1422,13 +1447,15 @@ export type Delivery_Order_Sum_Fields = {
   __typename?: 'delivery_order_sum_fields';
   customer_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
-  total?: Maybe<Scalars['Int']>;
+  route_id?: Maybe<Scalars['Int']>;
+  total?: Maybe<Scalars['numeric']>;
 };
 
 /** order by sum() on columns of table "delivery.order" */
 export type Delivery_Order_Sum_Order_By = {
   customer_id?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  route_id?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
 
@@ -1449,6 +1476,8 @@ export enum Delivery_Order_Update_Column {
   /** column name */
   PersonInCharge = 'person_in_charge',
   /** column name */
+  RouteId = 'route_id',
+  /** column name */
   Total = 'total'
 }
 
@@ -1457,6 +1486,7 @@ export type Delivery_Order_Var_Pop_Fields = {
   __typename?: 'delivery_order_var_pop_fields';
   customer_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  route_id?: Maybe<Scalars['Float']>;
   total?: Maybe<Scalars['Float']>;
 };
 
@@ -1464,6 +1494,7 @@ export type Delivery_Order_Var_Pop_Fields = {
 export type Delivery_Order_Var_Pop_Order_By = {
   customer_id?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  route_id?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
 
@@ -1472,6 +1503,7 @@ export type Delivery_Order_Var_Samp_Fields = {
   __typename?: 'delivery_order_var_samp_fields';
   customer_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  route_id?: Maybe<Scalars['Float']>;
   total?: Maybe<Scalars['Float']>;
 };
 
@@ -1479,6 +1511,7 @@ export type Delivery_Order_Var_Samp_Fields = {
 export type Delivery_Order_Var_Samp_Order_By = {
   customer_id?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  route_id?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
 
@@ -1487,6 +1520,7 @@ export type Delivery_Order_Variance_Fields = {
   __typename?: 'delivery_order_variance_fields';
   customer_id?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  route_id?: Maybe<Scalars['Float']>;
   total?: Maybe<Scalars['Float']>;
 };
 
@@ -1494,7 +1528,340 @@ export type Delivery_Order_Variance_Fields = {
 export type Delivery_Order_Variance_Order_By = {
   customer_id?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  route_id?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
+};
+
+/** columns and relationships of "delivery.routes" */
+export type Delivery_Routes = {
+  __typename?: 'delivery_routes';
+  driver_ci: Scalars['String'];
+  driver_last: Scalars['String'];
+  driver_name: Scalars['String'];
+  driver_plate: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  /** An array relationship */
+  orders: Array<Delivery_Order>;
+  /** An aggregated array relationship */
+  orders_aggregate: Delivery_Order_Aggregate;
+};
+
+
+/** columns and relationships of "delivery.routes" */
+export type Delivery_RoutesOrdersArgs = {
+  distinct_on?: Maybe<Array<Delivery_Order_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Delivery_Order_Order_By>>;
+  where?: Maybe<Delivery_Order_Bool_Exp>;
+};
+
+
+/** columns and relationships of "delivery.routes" */
+export type Delivery_RoutesOrders_AggregateArgs = {
+  distinct_on?: Maybe<Array<Delivery_Order_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Delivery_Order_Order_By>>;
+  where?: Maybe<Delivery_Order_Bool_Exp>;
+};
+
+/** aggregated selection of "delivery.routes" */
+export type Delivery_Routes_Aggregate = {
+  __typename?: 'delivery_routes_aggregate';
+  aggregate?: Maybe<Delivery_Routes_Aggregate_Fields>;
+  nodes: Array<Delivery_Routes>;
+};
+
+/** aggregate fields of "delivery.routes" */
+export type Delivery_Routes_Aggregate_Fields = {
+  __typename?: 'delivery_routes_aggregate_fields';
+  avg?: Maybe<Delivery_Routes_Avg_Fields>;
+  count?: Maybe<Scalars['Int']>;
+  max?: Maybe<Delivery_Routes_Max_Fields>;
+  min?: Maybe<Delivery_Routes_Min_Fields>;
+  stddev?: Maybe<Delivery_Routes_Stddev_Fields>;
+  stddev_pop?: Maybe<Delivery_Routes_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Delivery_Routes_Stddev_Samp_Fields>;
+  sum?: Maybe<Delivery_Routes_Sum_Fields>;
+  var_pop?: Maybe<Delivery_Routes_Var_Pop_Fields>;
+  var_samp?: Maybe<Delivery_Routes_Var_Samp_Fields>;
+  variance?: Maybe<Delivery_Routes_Variance_Fields>;
+};
+
+
+/** aggregate fields of "delivery.routes" */
+export type Delivery_Routes_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Delivery_Routes_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "delivery.routes" */
+export type Delivery_Routes_Aggregate_Order_By = {
+  avg?: Maybe<Delivery_Routes_Avg_Order_By>;
+  count?: Maybe<Order_By>;
+  max?: Maybe<Delivery_Routes_Max_Order_By>;
+  min?: Maybe<Delivery_Routes_Min_Order_By>;
+  stddev?: Maybe<Delivery_Routes_Stddev_Order_By>;
+  stddev_pop?: Maybe<Delivery_Routes_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<Delivery_Routes_Stddev_Samp_Order_By>;
+  sum?: Maybe<Delivery_Routes_Sum_Order_By>;
+  var_pop?: Maybe<Delivery_Routes_Var_Pop_Order_By>;
+  var_samp?: Maybe<Delivery_Routes_Var_Samp_Order_By>;
+  variance?: Maybe<Delivery_Routes_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "delivery.routes" */
+export type Delivery_Routes_Arr_Rel_Insert_Input = {
+  data: Array<Delivery_Routes_Insert_Input>;
+  on_conflict?: Maybe<Delivery_Routes_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Delivery_Routes_Avg_Fields = {
+  __typename?: 'delivery_routes_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "delivery.routes" */
+export type Delivery_Routes_Avg_Order_By = {
+  id?: Maybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "delivery.routes". All fields are combined with a logical 'AND'. */
+export type Delivery_Routes_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Delivery_Routes_Bool_Exp>>>;
+  _not?: Maybe<Delivery_Routes_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Delivery_Routes_Bool_Exp>>>;
+  driver_ci?: Maybe<String_Comparison_Exp>;
+  driver_last?: Maybe<String_Comparison_Exp>;
+  driver_name?: Maybe<String_Comparison_Exp>;
+  driver_plate?: Maybe<String_Comparison_Exp>;
+  id?: Maybe<Int_Comparison_Exp>;
+  name?: Maybe<String_Comparison_Exp>;
+  orders?: Maybe<Delivery_Order_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "delivery.routes" */
+export enum Delivery_Routes_Constraint {
+  /** unique or primary key constraint */
+  RoutesPkey = 'routes_pkey'
+}
+
+/** input type for incrementing integer column in table "delivery.routes" */
+export type Delivery_Routes_Inc_Input = {
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "delivery.routes" */
+export type Delivery_Routes_Insert_Input = {
+  driver_ci?: Maybe<Scalars['String']>;
+  driver_last?: Maybe<Scalars['String']>;
+  driver_name?: Maybe<Scalars['String']>;
+  driver_plate?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  orders?: Maybe<Delivery_Order_Arr_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type Delivery_Routes_Max_Fields = {
+  __typename?: 'delivery_routes_max_fields';
+  driver_ci?: Maybe<Scalars['String']>;
+  driver_last?: Maybe<Scalars['String']>;
+  driver_name?: Maybe<Scalars['String']>;
+  driver_plate?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "delivery.routes" */
+export type Delivery_Routes_Max_Order_By = {
+  driver_ci?: Maybe<Order_By>;
+  driver_last?: Maybe<Order_By>;
+  driver_name?: Maybe<Order_By>;
+  driver_plate?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Delivery_Routes_Min_Fields = {
+  __typename?: 'delivery_routes_min_fields';
+  driver_ci?: Maybe<Scalars['String']>;
+  driver_last?: Maybe<Scalars['String']>;
+  driver_name?: Maybe<Scalars['String']>;
+  driver_plate?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "delivery.routes" */
+export type Delivery_Routes_Min_Order_By = {
+  driver_ci?: Maybe<Order_By>;
+  driver_last?: Maybe<Order_By>;
+  driver_name?: Maybe<Order_By>;
+  driver_plate?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+};
+
+/** response of any mutation on the table "delivery.routes" */
+export type Delivery_Routes_Mutation_Response = {
+  __typename?: 'delivery_routes_mutation_response';
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data of the affected rows by the mutation */
+  returning: Array<Delivery_Routes>;
+};
+
+/** input type for inserting object relation for remote table "delivery.routes" */
+export type Delivery_Routes_Obj_Rel_Insert_Input = {
+  data: Delivery_Routes_Insert_Input;
+  on_conflict?: Maybe<Delivery_Routes_On_Conflict>;
+};
+
+/** on conflict condition type for table "delivery.routes" */
+export type Delivery_Routes_On_Conflict = {
+  constraint: Delivery_Routes_Constraint;
+  update_columns: Array<Delivery_Routes_Update_Column>;
+  where?: Maybe<Delivery_Routes_Bool_Exp>;
+};
+
+/** ordering options when selecting data from "delivery.routes" */
+export type Delivery_Routes_Order_By = {
+  driver_ci?: Maybe<Order_By>;
+  driver_last?: Maybe<Order_By>;
+  driver_name?: Maybe<Order_By>;
+  driver_plate?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  orders_aggregate?: Maybe<Delivery_Order_Aggregate_Order_By>;
+};
+
+/** primary key columns input for table: "delivery.routes" */
+export type Delivery_Routes_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "delivery.routes" */
+export enum Delivery_Routes_Select_Column {
+  /** column name */
+  DriverCi = 'driver_ci',
+  /** column name */
+  DriverLast = 'driver_last',
+  /** column name */
+  DriverName = 'driver_name',
+  /** column name */
+  DriverPlate = 'driver_plate',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "delivery.routes" */
+export type Delivery_Routes_Set_Input = {
+  driver_ci?: Maybe<Scalars['String']>;
+  driver_last?: Maybe<Scalars['String']>;
+  driver_name?: Maybe<Scalars['String']>;
+  driver_plate?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type Delivery_Routes_Stddev_Fields = {
+  __typename?: 'delivery_routes_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "delivery.routes" */
+export type Delivery_Routes_Stddev_Order_By = {
+  id?: Maybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Delivery_Routes_Stddev_Pop_Fields = {
+  __typename?: 'delivery_routes_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "delivery.routes" */
+export type Delivery_Routes_Stddev_Pop_Order_By = {
+  id?: Maybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Delivery_Routes_Stddev_Samp_Fields = {
+  __typename?: 'delivery_routes_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "delivery.routes" */
+export type Delivery_Routes_Stddev_Samp_Order_By = {
+  id?: Maybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Delivery_Routes_Sum_Fields = {
+  __typename?: 'delivery_routes_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "delivery.routes" */
+export type Delivery_Routes_Sum_Order_By = {
+  id?: Maybe<Order_By>;
+};
+
+/** update columns of table "delivery.routes" */
+export enum Delivery_Routes_Update_Column {
+  /** column name */
+  DriverCi = 'driver_ci',
+  /** column name */
+  DriverLast = 'driver_last',
+  /** column name */
+  DriverName = 'driver_name',
+  /** column name */
+  DriverPlate = 'driver_plate',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name'
+}
+
+/** aggregate var_pop on columns */
+export type Delivery_Routes_Var_Pop_Fields = {
+  __typename?: 'delivery_routes_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "delivery.routes" */
+export type Delivery_Routes_Var_Pop_Order_By = {
+  id?: Maybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Delivery_Routes_Var_Samp_Fields = {
+  __typename?: 'delivery_routes_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "delivery.routes" */
+export type Delivery_Routes_Var_Samp_Order_By = {
+  id?: Maybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Delivery_Routes_Variance_Fields = {
+  __typename?: 'delivery_routes_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "delivery.routes" */
+export type Delivery_Routes_Variance_Order_By = {
+  id?: Maybe<Order_By>;
 };
 
 /** mutation root */
@@ -1516,6 +1883,10 @@ export type Mutation_Root = {
   delete_delivery_order_items?: Maybe<Delivery_Order_Items_Mutation_Response>;
   /** delete single row from the table: "delivery.order_items" */
   delete_delivery_order_items_by_pk?: Maybe<Delivery_Order_Items>;
+  /** delete data from the table: "delivery.routes" */
+  delete_delivery_routes?: Maybe<Delivery_Routes_Mutation_Response>;
+  /** delete single row from the table: "delivery.routes" */
+  delete_delivery_routes_by_pk?: Maybe<Delivery_Routes>;
   /** insert data into the table: "delivery.customer" */
   insert_delivery_customer?: Maybe<Delivery_Customer_Mutation_Response>;
   /** insert a single row into the table: "delivery.customer" */
@@ -1532,6 +1903,10 @@ export type Mutation_Root = {
   insert_delivery_order_items_one?: Maybe<Delivery_Order_Items>;
   /** insert a single row into the table: "delivery.order" */
   insert_delivery_order_one?: Maybe<Delivery_Order>;
+  /** insert data into the table: "delivery.routes" */
+  insert_delivery_routes?: Maybe<Delivery_Routes_Mutation_Response>;
+  /** insert a single row into the table: "delivery.routes" */
+  insert_delivery_routes_one?: Maybe<Delivery_Routes>;
   /** update data of the table: "delivery.customer" */
   update_delivery_customer?: Maybe<Delivery_Customer_Mutation_Response>;
   /** update single row of the table: "delivery.customer" */
@@ -1548,6 +1923,10 @@ export type Mutation_Root = {
   update_delivery_order_items?: Maybe<Delivery_Order_Items_Mutation_Response>;
   /** update single row of the table: "delivery.order_items" */
   update_delivery_order_items_by_pk?: Maybe<Delivery_Order_Items>;
+  /** update data of the table: "delivery.routes" */
+  update_delivery_routes?: Maybe<Delivery_Routes_Mutation_Response>;
+  /** update single row of the table: "delivery.routes" */
+  update_delivery_routes_by_pk?: Maybe<Delivery_Routes>;
 };
 
 
@@ -1595,6 +1974,18 @@ export type Mutation_RootDelete_Delivery_Order_ItemsArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Delivery_Order_Items_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Delivery_RoutesArgs = {
+  where: Delivery_Routes_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Delivery_Routes_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -1652,6 +2043,20 @@ export type Mutation_RootInsert_Delivery_Order_Items_OneArgs = {
 export type Mutation_RootInsert_Delivery_Order_OneArgs = {
   object: Delivery_Order_Insert_Input;
   on_conflict?: Maybe<Delivery_Order_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Delivery_RoutesArgs = {
+  objects: Array<Delivery_Routes_Insert_Input>;
+  on_conflict?: Maybe<Delivery_Routes_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Delivery_Routes_OneArgs = {
+  object: Delivery_Routes_Insert_Input;
+  on_conflict?: Maybe<Delivery_Routes_On_Conflict>;
 };
 
 
@@ -1719,6 +2124,22 @@ export type Mutation_RootUpdate_Delivery_Order_Items_By_PkArgs = {
 };
 
 
+/** mutation root */
+export type Mutation_RootUpdate_Delivery_RoutesArgs = {
+  _inc?: Maybe<Delivery_Routes_Inc_Input>;
+  _set?: Maybe<Delivery_Routes_Set_Input>;
+  where: Delivery_Routes_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Delivery_Routes_By_PkArgs = {
+  _inc?: Maybe<Delivery_Routes_Inc_Input>;
+  _set?: Maybe<Delivery_Routes_Set_Input>;
+  pk_columns: Delivery_Routes_Pk_Columns_Input;
+};
+
+
 /** expression to compare columns of type numeric. All fields are combined with logical 'AND'. */
 export type Numeric_Comparison_Exp = {
   _eq?: Maybe<Scalars['numeric']>;
@@ -1775,6 +2196,12 @@ export type Query_Root = {
   delivery_order_items_aggregate: Delivery_Order_Items_Aggregate;
   /** fetch data from the table: "delivery.order_items" using primary key columns */
   delivery_order_items_by_pk?: Maybe<Delivery_Order_Items>;
+  /** fetch data from the table: "delivery.routes" */
+  delivery_routes: Array<Delivery_Routes>;
+  /** fetch aggregated fields from the table: "delivery.routes" */
+  delivery_routes_aggregate: Delivery_Routes_Aggregate;
+  /** fetch data from the table: "delivery.routes" using primary key columns */
+  delivery_routes_by_pk?: Maybe<Delivery_Routes>;
 };
 
 
@@ -1881,6 +2308,32 @@ export type Query_RootDelivery_Order_Items_By_PkArgs = {
   id: Scalars['Int'];
 };
 
+
+/** query root */
+export type Query_RootDelivery_RoutesArgs = {
+  distinct_on?: Maybe<Array<Delivery_Routes_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Delivery_Routes_Order_By>>;
+  where?: Maybe<Delivery_Routes_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootDelivery_Routes_AggregateArgs = {
+  distinct_on?: Maybe<Array<Delivery_Routes_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Delivery_Routes_Order_By>>;
+  where?: Maybe<Delivery_Routes_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootDelivery_Routes_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
 /** subscription root */
 export type Subscription_Root = {
   __typename?: 'subscription_root';
@@ -1908,6 +2361,12 @@ export type Subscription_Root = {
   delivery_order_items_aggregate: Delivery_Order_Items_Aggregate;
   /** fetch data from the table: "delivery.order_items" using primary key columns */
   delivery_order_items_by_pk?: Maybe<Delivery_Order_Items>;
+  /** fetch data from the table: "delivery.routes" */
+  delivery_routes: Array<Delivery_Routes>;
+  /** fetch aggregated fields from the table: "delivery.routes" */
+  delivery_routes_aggregate: Delivery_Routes_Aggregate;
+  /** fetch data from the table: "delivery.routes" using primary key columns */
+  delivery_routes_by_pk?: Maybe<Delivery_Routes>;
 };
 
 
@@ -2014,6 +2473,32 @@ export type Subscription_RootDelivery_Order_Items_By_PkArgs = {
   id: Scalars['Int'];
 };
 
+
+/** subscription root */
+export type Subscription_RootDelivery_RoutesArgs = {
+  distinct_on?: Maybe<Array<Delivery_Routes_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Delivery_Routes_Order_By>>;
+  where?: Maybe<Delivery_Routes_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootDelivery_Routes_AggregateArgs = {
+  distinct_on?: Maybe<Array<Delivery_Routes_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Delivery_Routes_Order_By>>;
+  where?: Maybe<Delivery_Routes_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootDelivery_Routes_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
 export type CreateCustomerMutationVariables = Exact<{
   customer_info?: Delivery_Customer_Insert_Input;
 }>;
@@ -2050,7 +2535,7 @@ export type CreateOrderMutationVariables = Exact<{
   order_time_of_day?: Maybe<Scalars['String']>;
   payment_type?: Maybe<Scalars['String']>;
   person_in_charge?: Maybe<Scalars['String']>;
-  total?: Maybe<Scalars['Int']>;
+  total?: Maybe<Scalars['numeric']>;
 }>;
 
 
@@ -2075,6 +2560,19 @@ export type CreateOrderItemsMutation = (
       { __typename?: 'delivery_order_items' }
       & Pick<Delivery_Order_Items, 'id' | 'item_id' | 'order_id' | 'price' | 'quantity'>
     )> }
+  )> }
+);
+
+export type CreateRouteMutationVariables = Exact<{
+  object: Delivery_Routes_Insert_Input;
+}>;
+
+
+export type CreateRouteMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_delivery_routes_one?: Maybe<(
+    { __typename?: 'delivery_routes' }
+    & Pick<Delivery_Routes, 'driver_ci' | 'driver_last' | 'driver_name' | 'driver_plate' | 'id' | 'name'>
   )> }
 );
 
@@ -2195,6 +2693,17 @@ export type OrdersQuery = (
   )> }
 );
 
+export type RoutesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RoutesQuery = (
+  { __typename?: 'query_root' }
+  & { delivery_routes: Array<(
+    { __typename?: 'delivery_routes' }
+    & Pick<Delivery_Routes, 'id' | 'name' | 'driver_name' | 'driver_last' | 'driver_ci' | 'driver_plate'>
+  )> }
+);
+
 
 export const CreateCustomerDocument = gql`
     mutation CreateCustomer($customer_info: delivery_customer_insert_input! = {NIT: "", address: "", full_name: "", phone: ""}) {
@@ -2229,7 +2738,7 @@ export function useCreateItemMutation() {
   return Urql.useMutation<CreateItemMutation, CreateItemMutationVariables>(CreateItemDocument);
 };
 export const CreateOrderDocument = gql`
-    mutation CreateOrder($clarification: String, $customer_id: Int, $order_date: date, $order_time_of_day: String, $payment_type: String, $person_in_charge: String, $total: Int) {
+    mutation CreateOrder($clarification: String, $customer_id: Int, $order_date: date, $order_time_of_day: String, $payment_type: String, $person_in_charge: String, $total: numeric) {
   insert_delivery_order_one(
     object: {clarification: $clarification, customer_id: $customer_id, order_date: $order_date, order_time_of_day: $order_time_of_day, payment_type: $payment_type, person_in_charge: $person_in_charge, total: $total}
   ) {
@@ -2264,6 +2773,22 @@ export const CreateOrderItemsDocument = gql`
 
 export function useCreateOrderItemsMutation() {
   return Urql.useMutation<CreateOrderItemsMutation, CreateOrderItemsMutationVariables>(CreateOrderItemsDocument);
+};
+export const CreateRouteDocument = gql`
+    mutation CreateRoute($object: delivery_routes_insert_input!) {
+  insert_delivery_routes_one(object: $object) {
+    driver_ci
+    driver_last
+    driver_name
+    driver_plate
+    id
+    name
+  }
+}
+    `;
+
+export function useCreateRouteMutation() {
+  return Urql.useMutation<CreateRouteMutation, CreateRouteMutationVariables>(CreateRouteDocument);
 };
 export const DeleteItemDocument = gql`
     mutation DeleteItem($_eq: Int) {
@@ -2389,4 +2914,20 @@ export const OrdersDocument = gql`
 
 export function useOrdersQuery(options: Omit<Urql.UseQueryArgs<OrdersQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<OrdersQuery>({ query: OrdersDocument, ...options });
+};
+export const RoutesDocument = gql`
+    query Routes {
+  delivery_routes {
+    id
+    name
+    driver_name
+    driver_last
+    driver_ci
+    driver_plate
+  }
+}
+    `;
+
+export function useRoutesQuery(options: Omit<Urql.UseQueryArgs<RoutesQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<RoutesQuery>({ query: RoutesDocument, ...options });
 };

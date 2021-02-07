@@ -10,6 +10,7 @@ import {
   FaCogs,
   FaBoxOpen,
   FaPlusSquare,
+  FaTruck,
 } from "react-icons/fa";
 import { Col, Layout, Menu, Space, Typography } from "antd";
 import {
@@ -30,6 +31,7 @@ const sideLinks = [
   },
   { path: "/items", label: "Items", icon: <ContainerOutlined /> },
   { path: "/orders", label: "H. de Pedidos", icon: <DatabaseOutlined /> },
+  { path: "/routes", label: "Rutas", icon: <FaTruck /> },
   { path: "/history", label: "Historial", icon: <DatabaseOutlined /> },
   { path: "/settings", label: "Settings", icon: <SettingOutlined /> },
 ];

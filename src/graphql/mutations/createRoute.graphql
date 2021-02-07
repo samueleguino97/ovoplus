@@ -1,0 +1,10 @@
+mutation CreateRoute($object: delivery_routes_insert_input!) {
+  insert_delivery_routes_one(object: $object) {
+    driver_ci
+    driver_last
+    driver_name
+    driver_plate
+    id
+    name
+  }
+}

@@ -4,11 +4,7 @@ import {
   Button,
   Card,
   Col,
-  Input,
   InputNumber,
-  List,
-  message,
-  Modal,
   Row,
   Table,
   Typography,
@@ -16,9 +12,7 @@ import {
 import { Form } from "antd";
 import { useOrderState } from "context/OrderContext";
 import { useItemsQuery } from "generated/graphql";
-import { Customer } from "models/Customer";
-import { Item } from "models/Item";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StepProps } from "types/types";
 
 function Step3({ onNextStep }: StepProps) {

@@ -5,7 +5,7 @@ mutation CreateOrder(
   $order_time_of_day: String
   $payment_type: String
   $person_in_charge: String
-  $total: Int
+  $total: numeric
 ) {
   insert_delivery_order_one(
     object: {
