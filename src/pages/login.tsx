@@ -24,7 +24,11 @@ function LoginPage() {
   const db = useDb();
 
   const onSubmit: SubmitHandler<UserLoginInputs> = async (data) => {
-    const loggedUser = await Auth.login(data.email, data.password);
+    console.log(data);
+    const loggedUser = await Auth.login(
+      data.email + "@ovoplusbo.com",
+      data.password
+    );
     if (!loggedUser) {
       setError("email", {
         type: "validation",

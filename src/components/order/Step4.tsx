@@ -23,18 +23,34 @@ import React, { useEffect, useState } from "react";
 import { StepProps } from "types/types";
 import { SmileOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { sortBy } from "utils/sortBy";
 
 function Step4({ onNextStep }: StepProps) {
+  const { completedOrder, customer } = useOrderState();
+  console.log(completedOrder);
   function copyMessage() {
     navigator.clipboard
       .writeText(
-        `cbfh
-sdg
-s
-gd
-gsd
-gsdg
-sd`
+        `*No de Pedido* ${completedOrder.id}
+${completedOrder.customer.full_name}
+*Factura*
+Nom:${completedOrder.customer.full_name}
+Nit:${completedOrder.customer.NIT}
+*Pedido*
+${completedOrder.items
+  .sort(sortBy("id"))
+  .map((i) => `${i.quantity} ${i.name}: ${i.price * i.quantity}Bs`)
+  .join("\n")}
+*Total*
+${completedOrder.items.reduce(
+  (map, next) => map + next.price * next.quantity,
+  0
+)}Bs
+*Cel:*
+${completedOrder.customer.phone}
+*Ubicacion:*
+${completedOrder.customer.address}
+`
       )
       .then(
         function () {

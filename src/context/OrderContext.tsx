@@ -7,7 +7,7 @@ const OrderContext = createContext<any>({});
 
 type OrderProviderProps = {
   children: ReactNode;
-  orderForm: Customer & { isDelivery?: boolean };
+  orderForm: Customer & { isDelivery?: boolean; completedOrder: any };
 };
 
 export function OrderProvider({ children, orderForm }: OrderProviderProps) {
@@ -16,7 +16,10 @@ export function OrderProvider({ children, orderForm }: OrderProviderProps) {
   );
 }
 
-export function useOrderState(): OrderForm & { isDelivery?: boolean } {
+export function useOrderState(): OrderForm & {
+  isDelivery?: boolean;
+  completedOrder: any;
+} {
   const orderContext = useContext(OrderContext);
   return orderContext;
 }

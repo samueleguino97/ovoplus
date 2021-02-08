@@ -16,13 +16,8 @@ import {
   Table,
   Typography,
 } from "antd";
-import { useForm } from "antd/lib/form/Form";
 import { Option } from "antd/lib/mentions";
-import {
-  useOrdersQuery,
-  useRoutesQuery,
-  useUpdateOrderMutation,
-} from "generated/graphql";
+import { useOrdersQuery, useRoutesQuery } from "generated/graphql";
 import { Item } from "models/Item";
 import { route } from "next/dist/next-server/server/router";
 import React, { useEffect, useMemo, useState } from "react";
@@ -32,17 +27,8 @@ function OrderHistoryPage() {
   const [res] = useOrdersQuery();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [{ data }] = useRoutesQuery();
-  const [form] = useForm();
-  const [, completeOrder] = useUpdateOrderMutation();
   const routes = data ? data.delivery_routes : [];
-  async function printAndSubmit(order_id: number) {
-    const res = await completeOrder({
-      ...form.getFieldsValue(),
-      status: "completed",
-      programmed_date: form.getFieldValue("programmed_date").toDate(),
-      id: order_id,
-    });
-    console.log(res);
+  function printAndSubmit() {
     window.print();
   }
   return (
@@ -62,6 +48,7 @@ function OrderHistoryPage() {
       <Table
         dataSource={
           res?.data?.delivery_order
+            .filter((i) => i.status === "completed")
             .sort(sortBy("id"))
             .map((i) => ({ ...i, key: i.id })) || []
         }
@@ -132,33 +119,20 @@ function OrderHistoryPage() {
                   <Typography.Title level={5}>
                     {record.customer.full_name}
                   </Typography.Title>
-                  <Form onFinish={() => printAndSubmit(record.id)} form={form}>
-                    <Form.Item label="Fecha de Entrega" name="programmed_date">
-                      <DatePicker placeholder="Fecha de Entrega" />
-                    </Form.Item>
-
-                    <Form.Item label="Hora de Entrega" name="order_time_of_day">
-                      <Select placeholder="Hora de Entrega">
-                        <Select.Option value="morning">Mañana</Select.Option>
-                        <Select.Option value="afternoon">Tarde</Select.Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item label="Seleccionar Ruta" name="route_id">
-                      <Select
-                        placeholder="Seleccionar Ruta"
-                        style={{ width: "100%" }}
-                      >
-                        {routes?.map((r) => (
-                          <Select.Option value={r.id.toString()}>
-                            {r.name}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    </Form.Item>
-                    <Button htmlType="submit" type="primary">
-                      Programar e Imprimir
-                    </Button>
-                  </Form>
+                  <DatePicker placeholder="Fehca de Entrega" />
+                  <Select placeholder="Hora de Entrega">
+                    <Option value="morning">Mañana</Option>
+                    <Option value="afternoon">Tarde</Option>
+                  </Select>
+                  <Select
+                    placeholder="Seleccionar Ruta"
+                    style={{ width: "100%" }}
+                  >
+                    {routes?.map((r) => (
+                      <Option value={r.id.toString()}>{r.name}</Option>
+                    ))}
+                  </Select>
+                  <Button onClick={printAndSubmit}>Programar e Imprimir</Button>
                 </Card>
               </Col>
             </Row>
@@ -168,7 +142,11 @@ function OrderHistoryPage() {
         columns={[
           { title: "Id", dataIndex: "id", key: "id" },
           { title: "Fecha", dataIndex: "order_date", key: "order_date" },
-
+          {
+            title: "Estado",
+            dataIndex: "status",
+            key: "status",
+          },
           {
             title: "A Cargo",
             dataIndex: "person_in_charge",

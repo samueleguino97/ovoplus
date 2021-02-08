@@ -742,6 +742,7 @@ export type Delivery_Order = {
   order_time_of_day: Scalars['String'];
   payment_type: Scalars['String'];
   person_in_charge: Scalars['String'];
+  programmed_date: Scalars['date'];
   /** An object relationship */
   route?: Maybe<Delivery_Routes>;
   route_id?: Maybe<Scalars['Int']>;
@@ -851,6 +852,7 @@ export type Delivery_Order_Bool_Exp = {
   order_time_of_day?: Maybe<String_Comparison_Exp>;
   payment_type?: Maybe<String_Comparison_Exp>;
   person_in_charge?: Maybe<String_Comparison_Exp>;
+  programmed_date?: Maybe<Date_Comparison_Exp>;
   route?: Maybe<Delivery_Routes_Bool_Exp>;
   route_id?: Maybe<Int_Comparison_Exp>;
   status?: Maybe<String_Comparison_Exp>;
@@ -882,6 +884,7 @@ export type Delivery_Order_Insert_Input = {
   order_time_of_day?: Maybe<Scalars['String']>;
   payment_type?: Maybe<Scalars['String']>;
   person_in_charge?: Maybe<Scalars['String']>;
+  programmed_date?: Maybe<Scalars['date']>;
   route?: Maybe<Delivery_Routes_Obj_Rel_Insert_Input>;
   route_id?: Maybe<Scalars['Int']>;
   status?: Maybe<Scalars['String']>;
@@ -1270,6 +1273,7 @@ export type Delivery_Order_Max_Fields = {
   order_time_of_day?: Maybe<Scalars['String']>;
   payment_type?: Maybe<Scalars['String']>;
   person_in_charge?: Maybe<Scalars['String']>;
+  programmed_date?: Maybe<Scalars['date']>;
   route_id?: Maybe<Scalars['Int']>;
   status?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['numeric']>;
@@ -1284,6 +1288,7 @@ export type Delivery_Order_Max_Order_By = {
   order_time_of_day?: Maybe<Order_By>;
   payment_type?: Maybe<Order_By>;
   person_in_charge?: Maybe<Order_By>;
+  programmed_date?: Maybe<Order_By>;
   route_id?: Maybe<Order_By>;
   status?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
@@ -1299,6 +1304,7 @@ export type Delivery_Order_Min_Fields = {
   order_time_of_day?: Maybe<Scalars['String']>;
   payment_type?: Maybe<Scalars['String']>;
   person_in_charge?: Maybe<Scalars['String']>;
+  programmed_date?: Maybe<Scalars['date']>;
   route_id?: Maybe<Scalars['Int']>;
   status?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['numeric']>;
@@ -1313,6 +1319,7 @@ export type Delivery_Order_Min_Order_By = {
   order_time_of_day?: Maybe<Order_By>;
   payment_type?: Maybe<Order_By>;
   person_in_charge?: Maybe<Order_By>;
+  programmed_date?: Maybe<Order_By>;
   route_id?: Maybe<Order_By>;
   status?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
@@ -1351,6 +1358,7 @@ export type Delivery_Order_Order_By = {
   order_time_of_day?: Maybe<Order_By>;
   payment_type?: Maybe<Order_By>;
   person_in_charge?: Maybe<Order_By>;
+  programmed_date?: Maybe<Order_By>;
   route?: Maybe<Delivery_Routes_Order_By>;
   route_id?: Maybe<Order_By>;
   status?: Maybe<Order_By>;
@@ -1379,6 +1387,8 @@ export enum Delivery_Order_Select_Column {
   /** column name */
   PersonInCharge = 'person_in_charge',
   /** column name */
+  ProgrammedDate = 'programmed_date',
+  /** column name */
   RouteId = 'route_id',
   /** column name */
   Status = 'status',
@@ -1395,6 +1405,7 @@ export type Delivery_Order_Set_Input = {
   order_time_of_day?: Maybe<Scalars['String']>;
   payment_type?: Maybe<Scalars['String']>;
   person_in_charge?: Maybe<Scalars['String']>;
+  programmed_date?: Maybe<Scalars['date']>;
   route_id?: Maybe<Scalars['Int']>;
   status?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['numeric']>;
@@ -1484,6 +1495,8 @@ export enum Delivery_Order_Update_Column {
   PaymentType = 'payment_type',
   /** column name */
   PersonInCharge = 'person_in_charge',
+  /** column name */
+  ProgrammedDate = 'programmed_date',
   /** column name */
   RouteId = 'route_id',
   /** column name */
@@ -2547,6 +2560,7 @@ export type CreateOrderMutationVariables = Exact<{
   payment_type?: Maybe<Scalars['String']>;
   person_in_charge?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['numeric']>;
+  route_id?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -2658,6 +2672,23 @@ export type UpdateItemMutation = (
   )> }
 );
 
+export type UpdateOrderMutationVariables = Exact<{
+  route_id?: Maybe<Scalars['Int']>;
+  status?: Maybe<Scalars['String']>;
+  order_time_of_day?: Maybe<Scalars['String']>;
+  programmed_date?: Maybe<Scalars['date']>;
+  id: Scalars['Int'];
+}>;
+
+
+export type UpdateOrderMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_delivery_order_by_pk?: Maybe<(
+    { __typename?: 'delivery_order' }
+    & Pick<Delivery_Order, 'id' | 'order_time_of_day' | 'route_id' | 'status' | 'programmed_date'>
+  )> }
+);
+
 export type CustomerQueryVariables = Exact<{
   phone?: Maybe<Scalars['String']>;
 }>;
@@ -2749,9 +2780,9 @@ export function useCreateItemMutation() {
   return Urql.useMutation<CreateItemMutation, CreateItemMutationVariables>(CreateItemDocument);
 };
 export const CreateOrderDocument = gql`
-    mutation CreateOrder($clarification: String, $customer_id: Int, $order_date: date, $order_time_of_day: String, $payment_type: String, $person_in_charge: String, $total: numeric) {
+    mutation CreateOrder($clarification: String, $customer_id: Int, $order_date: date, $order_time_of_day: String, $payment_type: String, $person_in_charge: String, $total: numeric, $route_id: Int) {
   insert_delivery_order_one(
-    object: {clarification: $clarification, customer_id: $customer_id, order_date: $order_date, order_time_of_day: $order_time_of_day, payment_type: $payment_type, person_in_charge: $person_in_charge, total: $total}
+    object: {clarification: $clarification, customer_id: $customer_id, order_date: $order_date, order_time_of_day: $order_time_of_day, payment_type: $payment_type, person_in_charge: $person_in_charge, total: $total, route_id: $route_id}
   ) {
     clarification
     customer_id
@@ -2865,6 +2896,24 @@ export const UpdateItemDocument = gql`
 
 export function useUpdateItemMutation() {
   return Urql.useMutation<UpdateItemMutation, UpdateItemMutationVariables>(UpdateItemDocument);
+};
+export const UpdateOrderDocument = gql`
+    mutation UpdateOrder($route_id: Int = 10, $status: String = "", $order_time_of_day: String = "", $programmed_date: date, $id: Int!) {
+  update_delivery_order_by_pk(
+    pk_columns: {id: $id}
+    _set: {status: $status, route_id: $route_id, order_time_of_day: $order_time_of_day, programmed_date: $programmed_date}
+  ) {
+    id
+    order_time_of_day
+    route_id
+    status
+    programmed_date
+  }
+}
+    `;
+
+export function useUpdateOrderMutation() {
+  return Urql.useMutation<UpdateOrderMutation, UpdateOrderMutationVariables>(UpdateOrderDocument);
 };
 export const CustomerDocument = gql`
     query Customer($phone: String = "") {

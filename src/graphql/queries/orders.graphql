@@ -8,6 +8,10 @@ query Orders {
     payment_type
     person_in_charge
     total
+    route {
+      id
+      name
+    }
     items {
       id
       price

@@ -1,0 +1,23 @@
+mutation UpdateOrder(
+  $route_id: Int = 10
+  $status: String = ""
+  $order_time_of_day: String = ""
+  $programmed_date: date
+  $id: Int!
+) {
+  update_delivery_order_by_pk(
+    pk_columns: { id: $id }
+    _set: {
+      status: $status
+      route_id: $route_id
+      order_time_of_day: $order_time_of_day
+      programmed_date: $programmed_date
+    }
+  ) {
+    id
+    order_time_of_day
+    route_id
+    status
+    programmed_date
+  }
+}

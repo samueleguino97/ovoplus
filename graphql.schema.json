@@ -4867,6 +4867,22 @@
             "deprecationReason": null
           },
           {
+            "name": "programmed_date",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "date",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "route",
             "description": "An object relationship",
             "args": [],
@@ -5556,6 +5572,16 @@
             "defaultValue": null
           },
           {
+            "name": "programmed_date",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "date_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "route",
             "description": null,
             "type": {
@@ -5760,6 +5786,16 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "programmed_date",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "date",
               "ofType": null
             },
             "defaultValue": null
@@ -8401,6 +8437,18 @@
             "deprecationReason": null
           },
           {
+            "name": "programmed_date",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "date",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "route_id",
             "description": null,
             "args": [],
@@ -8510,6 +8558,16 @@
           },
           {
             "name": "person_in_charge",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "programmed_date",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -8643,6 +8701,18 @@
             "deprecationReason": null
           },
           {
+            "name": "programmed_date",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "date",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "route_id",
             "description": null,
             "args": [],
@@ -8752,6 +8822,16 @@
           },
           {
             "name": "person_in_charge",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "programmed_date",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -9035,6 +9115,16 @@
             "defaultValue": null
           },
           {
+            "name": "programmed_date",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "route",
             "description": null,
             "type": {
@@ -9155,6 +9245,12 @@
             "deprecationReason": null
           },
           {
+            "name": "programmed_date",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "route_id",
             "description": "column name",
             "isDeprecated": false,
@@ -9247,6 +9343,16 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "programmed_date",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "date",
               "ofType": null
             },
             "defaultValue": null
@@ -9772,6 +9878,12 @@
           },
           {
             "name": "person_in_charge",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "programmed_date",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null

@@ -1,5 +1,15 @@
+import Logo from "@components/Logo";
 import { useLoadingState } from "@hooks/useLoadingState";
-import { Button, Card, Form, Input, Layout, Row, Typography } from "antd";
+import {
+  Button,
+  Card,
+  Form,
+  Image,
+  Input,
+  Layout,
+  Row,
+  Typography,
+} from "antd";
 import { auth } from "config/firebase";
 import React, { useState } from "react";
 
@@ -8,7 +18,7 @@ function AuthenticationPage({ onSignIn }: { onSignIn: Function }) {
   function signinUser({ email, password }) {
     toggleLoading();
     auth()
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(email + "@ovoplusbo.com", password)
       .then(() => {
         onSignIn(email);
       })
@@ -19,6 +29,9 @@ function AuthenticationPage({ onSignIn }: { onSignIn: Function }) {
       <Layout.Content>
         <Row style={{ height: "100vh" }} justify="center" align="middle">
           <Card>
+            <Row style={{ marginBottom: 12 }} justify="center">
+              <Logo />
+            </Row>
             <Typography.Title>Iniciar Sesion</Typography.Title>
             <Form onFinish={signinUser} layout="vertical">
               <Form.Item name="email" label="Correo Electronico">
@@ -27,9 +40,17 @@ function AuthenticationPage({ onSignIn }: { onSignIn: Function }) {
               <Form.Item name="password" label="Contraseña">
                 <Input type="password" />
               </Form.Item>
-              <Button loading={loading} htmlType="submit" type="primary">
-                Iniciar
-              </Button>
+
+              <Row justify="center">
+                <Button
+                  size="large"
+                  loading={loading}
+                  htmlType="submit"
+                  type="primary"
+                >
+                  Iniciar
+                </Button>
+              </Row>
             </Form>
           </Card>
         </Row>

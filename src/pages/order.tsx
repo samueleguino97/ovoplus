@@ -44,6 +44,8 @@ function OrderPage() {
   const [, createOrderItems] = useCreateOrderItemsMutation();
   const [, incrementItemQuantity] = useIncrementItemMutation();
 
+  const [completedOrder, setCompletedOrder] = useState<any>({});
+
   async function placeOrder(orderItems: any[], customer: Customer) {
     const res = await createOrder({
       clarification,
@@ -63,6 +65,17 @@ function OrderPage() {
         item_id: i.id,
         price: i.price,
         quantity: i.quantity,
+      })),
+    });
+    setCompletedOrder({
+      ...newOrder,
+      customer,
+      items: orderItems.map((i) => ({
+        order_id: newOrder.id,
+        item_id: i.id,
+        price: i.price,
+        quantity: i.quantity,
+        name: i.name,
       })),
     });
 
@@ -105,7 +118,7 @@ function OrderPage() {
         justify="center"
         align="middle"
       >
-        <OrderProvider orderForm={{ ...customer, isDelivery }}>
+        <OrderProvider orderForm={{ ...customer, isDelivery, completedOrder }}>
           <Content onNextStep={handleNextStep} />
         </OrderProvider>
       </Row>

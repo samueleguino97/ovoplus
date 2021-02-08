@@ -11,13 +11,16 @@ import {
 } from "antd";
 import { Form } from "antd";
 import { useOrderState } from "context/OrderContext";
+import { id } from "date-fns/locale";
 import { useItemsQuery } from "generated/graphql";
 import React, { useState } from "react";
 import { StepProps } from "types/types";
+import { sortBy } from "utils/sortBy";
 
 function Step3({ onNextStep }: StepProps) {
   const [form] = Form.useForm();
   const orderForm = useOrderState();
+  const [autocompleteValue, setValue] = useState<string>("");
 
   const [loading, setLoading] = useState<boolean>(false);
   const [res] = useItemsQuery();
@@ -34,7 +37,6 @@ function Step3({ onNextStep }: StepProps) {
 
   function addItem(item) {
     setOrderItems([
-      ...orderItems,
       {
         name: item.name,
         quantity: 1,
@@ -42,7 +44,9 @@ function Step3({ onNextStep }: StepProps) {
         total: orderForm.isDelivery ? item.delivery_price : item.store_price,
         id: item.id,
       },
+      ...orderItems,
     ]);
+    setValue("");
   }
 
   function modifyItem(itemId, field, value) {
@@ -67,14 +71,25 @@ function Step3({ onNextStep }: StepProps) {
           </Typography.Paragraph>
 
           <AutoComplete
-            options={items.map((item) => ({
-              value: item.name,
-              id: item.id,
-              ...item,
-            }))}
+            options={items
+              .filter(
+                (i) =>
+                  i.name
+                    .toLowerCase()
+                    .includes(autocompleteValue.toLowerCase()) &&
+                  !orderItems.find((it) => +it.id === +i.id)
+              )
+              .sort(sortBy("id"))
+              .map((item) => ({
+                value: item.name,
+                id: item.id,
+                ...item,
+              }))}
             onSelect={(value, option) => addItem(option)}
             placeholder="Items"
             disabled={loading}
+            value={autocompleteValue}
+            onChange={setValue}
             style={{ width: "100%" }}
           />
         </Form>

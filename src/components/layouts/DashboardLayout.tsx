@@ -10,6 +10,8 @@ import {
   FaCogs,
   FaBoxOpen,
   FaPlusSquare,
+  FaMoneyBill,
+  FaMoneyCheck,
   FaTruck,
 } from "react-icons/fa";
 import { Col, Layout, Menu, Space, Typography } from "antd";
@@ -20,6 +22,8 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { auth } from "config/firebase";
+import SubMenu from "antd/lib/menu/SubMenu";
+import Logo from "@components/Logo";
 
 const { Header, Content, Sider } = Layout;
 
@@ -30,9 +34,41 @@ const sideLinks = [
     icon: <PlusSquareOutlined />,
   },
   { path: "/items", label: "Items", icon: <ContainerOutlined /> },
-  { path: "/orders", label: "H. de Pedidos", icon: <DatabaseOutlined /> },
-  { path: "/routes", label: "Rutas", icon: <FaTruck /> },
-  { path: "/history", label: "Historial", icon: <DatabaseOutlined /> },
+  {
+    label: "Pedidos",
+    sub: [
+      {
+        path: "/orders",
+        label: "Pendientes",
+        icon: <DatabaseOutlined />,
+      },
+      {
+        path: "/completed_orders",
+        label: "Completados",
+        icon: <DatabaseOutlined />,
+      },
+    ],
+  },
+  {
+    label: "Rutas",
+    sub: [
+      {
+        path: "/routes",
+        label: "Listado",
+        icon: <FaTruck />,
+      },
+      {
+        path: "/debt",
+        label: "Deudas",
+        icon: <FaMoneyBill />,
+      },
+      {
+        path: "/comissions",
+        label: "Comisiones",
+        icon: <FaMoneyCheck />,
+      },
+    ],
+  },
   { path: "/settings", label: "Settings", icon: <SettingOutlined /> },
 ];
 
@@ -58,7 +94,10 @@ function DashboardLayout({ children, onLogout }: DashboardLayoutProps) {
           <Menu.Item style={{ height: 80, marginTop: 16 }}>
             <Col>
               <Typography.Title level={5} style={{ color: "white" }}>
-                {auth().currentUser.email}
+                {auth().currentUser.email.substring(
+                  0,
+                  auth().currentUser.email.lastIndexOf("@")
+                )}
               </Typography.Title>
               <div
                 onClick={() => {
@@ -74,16 +113,31 @@ function DashboardLayout({ children, onLogout }: DashboardLayoutProps) {
               </div>
             </Col>
           </Menu.Item>
-          {sideLinks.map((link, index) => (
-            <Menu.Item key={index + 1} icon={link.icon}>
-              <Link href={link.path}>
-                <a>{link.label}</a>
-              </Link>
-            </Menu.Item>
-          ))}
+          {sideLinks.map((link, index) =>
+            link.sub ? (
+              <SubMenu key={link.label} title={link.label}>
+                {link.sub.map((s, newIn) => (
+                  <Menu.Item key={s.path} icon={s.icon}>
+                    <Link href={s.path}>
+                      <a>{s.label}</a>
+                    </Link>
+                  </Menu.Item>
+                ))}
+              </SubMenu>
+            ) : (
+              <Menu.Item key={index + 1} icon={link.icon}>
+                <Link href={link.path}>
+                  <a>{link.label}</a>
+                </Link>
+              </Menu.Item>
+            )
+          )}
         </Menu>
       </Sider>
       <Layout className="site-layout">
+        <div style={{ position: "absolute", top: 12, right: 48 }}>
+          <Logo width={200} />
+        </div>
         <Content style={{ margin: "0 16px" }}>{children}</Content>
       </Layout>
     </Layout>
