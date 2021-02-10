@@ -7,6 +7,7 @@ mutation CreateOrder(
   $person_in_charge: String
   $total: numeric
   $route_id: Int
+  $social: String
 ) {
   insert_delivery_order_one(
     object: {
@@ -18,6 +19,7 @@ mutation CreateOrder(
       person_in_charge: $person_in_charge
       total: $total
       route_id: $route_id
+      social: $social
     }
   ) {
     clarification

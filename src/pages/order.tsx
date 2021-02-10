@@ -36,6 +36,7 @@ function OrderPage() {
   const [customer, setCustomer] = useState<Customer>();
   const [isDelivery, setIsDelivery] = useState(true);
   const [clarification, setClarification] = useState("");
+  const [social, setSocial] = useState("");
 
   const [result] = useItemsQuery();
   const items = result.data?.delivery_items || [];
@@ -51,6 +52,7 @@ function OrderPage() {
       clarification,
       order_date: new Date(),
       order_time_of_day: "",
+      social,
       payment_type: "cash",
       person_in_charge: auth().currentUser.email,
       customer_id: +customer.id,
@@ -95,6 +97,7 @@ function OrderPage() {
         break;
       case 1:
         setClarification(value.clarification);
+        setSocial(value.social);
         setCustomer((curr) => ({ ...curr, ...value }));
         setCurrentStep((curr) => curr + 1);
         break;

@@ -5,4 +5,5 @@ export interface Customer {
   NIT: string;
   phone: Number;
   id: string;
+  social;
 }

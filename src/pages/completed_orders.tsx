@@ -119,20 +119,15 @@ function OrderHistoryPage() {
                   <Typography.Title level={5}>
                     {record.customer.full_name}
                   </Typography.Title>
-                  <DatePicker placeholder="Fehca de Entrega" />
-                  <Select placeholder="Hora de Entrega">
-                    <Option value="morning">Mañana</Option>
-                    <Option value="afternoon">Tarde</Option>
-                  </Select>
-                  <Select
-                    placeholder="Seleccionar Ruta"
-                    style={{ width: "100%" }}
-                  >
-                    {routes?.map((r) => (
-                      <Option value={r.id.toString()}>{r.name}</Option>
-                    ))}
-                  </Select>
-                  <Button onClick={printAndSubmit}>Programar e Imprimir</Button>
+                  <Descriptions title="Informacion de la Orden">
+                    <Descriptions.Item>
+                      {record.programmed_date}
+                    </Descriptions.Item>
+                    <Descriptions.Item>
+                      {record.order_time_of_day}
+                    </Descriptions.Item>
+                    <Descriptions.Item>{record.route.name}</Descriptions.Item>
+                  </Descriptions>
                 </Card>
               </Col>
             </Row>

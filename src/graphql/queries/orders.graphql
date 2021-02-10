@@ -7,7 +7,9 @@ query Orders {
     order_time_of_day
     payment_type
     person_in_charge
+    programmed_date
     total
+    social
     route {
       id
       name

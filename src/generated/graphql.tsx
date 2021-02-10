@@ -1091,6 +1091,7 @@ export type Delivery_Order = {
   /** An object relationship */
   route?: Maybe<Delivery_Routes>;
   route_id?: Maybe<Scalars['Int']>;
+  social?: Maybe<Scalars['String']>;
   status: Scalars['String'];
   total: Scalars['numeric'];
 };
@@ -1200,6 +1201,7 @@ export type Delivery_Order_Bool_Exp = {
   programmed_date?: Maybe<Date_Comparison_Exp>;
   route?: Maybe<Delivery_Routes_Bool_Exp>;
   route_id?: Maybe<Int_Comparison_Exp>;
+  social?: Maybe<String_Comparison_Exp>;
   status?: Maybe<String_Comparison_Exp>;
   total?: Maybe<Numeric_Comparison_Exp>;
 };
@@ -1232,6 +1234,7 @@ export type Delivery_Order_Insert_Input = {
   programmed_date?: Maybe<Scalars['date']>;
   route?: Maybe<Delivery_Routes_Obj_Rel_Insert_Input>;
   route_id?: Maybe<Scalars['Int']>;
+  social?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['numeric']>;
 };
@@ -1620,6 +1623,7 @@ export type Delivery_Order_Max_Fields = {
   person_in_charge?: Maybe<Scalars['String']>;
   programmed_date?: Maybe<Scalars['date']>;
   route_id?: Maybe<Scalars['Int']>;
+  social?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['numeric']>;
 };
@@ -1635,6 +1639,7 @@ export type Delivery_Order_Max_Order_By = {
   person_in_charge?: Maybe<Order_By>;
   programmed_date?: Maybe<Order_By>;
   route_id?: Maybe<Order_By>;
+  social?: Maybe<Order_By>;
   status?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
@@ -1651,6 +1656,7 @@ export type Delivery_Order_Min_Fields = {
   person_in_charge?: Maybe<Scalars['String']>;
   programmed_date?: Maybe<Scalars['date']>;
   route_id?: Maybe<Scalars['Int']>;
+  social?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['numeric']>;
 };
@@ -1666,6 +1672,7 @@ export type Delivery_Order_Min_Order_By = {
   person_in_charge?: Maybe<Order_By>;
   programmed_date?: Maybe<Order_By>;
   route_id?: Maybe<Order_By>;
+  social?: Maybe<Order_By>;
   status?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
@@ -1706,6 +1713,7 @@ export type Delivery_Order_Order_By = {
   programmed_date?: Maybe<Order_By>;
   route?: Maybe<Delivery_Routes_Order_By>;
   route_id?: Maybe<Order_By>;
+  social?: Maybe<Order_By>;
   status?: Maybe<Order_By>;
   total?: Maybe<Order_By>;
 };
@@ -1736,6 +1744,8 @@ export enum Delivery_Order_Select_Column {
   /** column name */
   RouteId = 'route_id',
   /** column name */
+  Social = 'social',
+  /** column name */
   Status = 'status',
   /** column name */
   Total = 'total'
@@ -1752,6 +1762,7 @@ export type Delivery_Order_Set_Input = {
   person_in_charge?: Maybe<Scalars['String']>;
   programmed_date?: Maybe<Scalars['date']>;
   route_id?: Maybe<Scalars['Int']>;
+  social?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['numeric']>;
 };
@@ -1844,6 +1855,8 @@ export enum Delivery_Order_Update_Column {
   ProgrammedDate = 'programmed_date',
   /** column name */
   RouteId = 'route_id',
+  /** column name */
+  Social = 'social',
   /** column name */
   Status = 'status',
   /** column name */
@@ -3025,6 +3038,7 @@ export type CreateOrderMutationVariables = Exact<{
   person_in_charge?: Maybe<Scalars['String']>;
   total?: Maybe<Scalars['numeric']>;
   route_id?: Maybe<Scalars['Int']>;
+  social?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -3200,7 +3214,7 @@ export type OrdersQuery = (
   { __typename?: 'query_root' }
   & { delivery_order: Array<(
     { __typename?: 'delivery_order' }
-    & Pick<Delivery_Order, 'clarification' | 'id' | 'status' | 'order_date' | 'order_time_of_day' | 'payment_type' | 'person_in_charge' | 'total'>
+    & Pick<Delivery_Order, 'clarification' | 'id' | 'status' | 'order_date' | 'order_time_of_day' | 'payment_type' | 'person_in_charge' | 'programmed_date' | 'total' | 'social'>
     & { route?: Maybe<(
       { __typename?: 'delivery_routes' }
       & Pick<Delivery_Routes, 'id' | 'name'>
@@ -3228,7 +3242,7 @@ export type RouteOrdersQuery = (
   { __typename?: 'query_root' }
   & { delivery_order: Array<(
     { __typename?: 'delivery_order' }
-    & Pick<Delivery_Order, 'total' | 'status' | 'route_id' | 'programmed_date' | 'person_in_charge' | 'payment_type' | 'order_time_of_day' | 'order_date' | 'id' | 'customer_id' | 'clarification'>
+    & Pick<Delivery_Order, 'total' | 'status' | 'route_id' | 'programmed_date' | 'person_in_charge' | 'payment_type' | 'order_time_of_day' | 'order_date' | 'id' | 'customer_id' | 'clarification' | 'social'>
     & { items: Array<(
       { __typename?: 'delivery_order_items' }
       & Pick<Delivery_Order_Items, 'price' | 'quantity' | 'id'>
@@ -3288,9 +3302,9 @@ export function useCreateItemMutation() {
   return Urql.useMutation<CreateItemMutation, CreateItemMutationVariables>(CreateItemDocument);
 };
 export const CreateOrderDocument = gql`
-    mutation CreateOrder($clarification: String, $customer_id: Int, $order_date: date, $order_time_of_day: String, $payment_type: String, $person_in_charge: String, $total: numeric, $route_id: Int) {
+    mutation CreateOrder($clarification: String, $customer_id: Int, $order_date: date, $order_time_of_day: String, $payment_type: String, $person_in_charge: String, $total: numeric, $route_id: Int, $social: String) {
   insert_delivery_order_one(
-    object: {clarification: $clarification, customer_id: $customer_id, order_date: $order_date, order_time_of_day: $order_time_of_day, payment_type: $payment_type, person_in_charge: $person_in_charge, total: $total, route_id: $route_id}
+    object: {clarification: $clarification, customer_id: $customer_id, order_date: $order_date, order_time_of_day: $order_time_of_day, payment_type: $payment_type, person_in_charge: $person_in_charge, total: $total, route_id: $route_id, social: $social}
   ) {
     clarification
     customer_id
@@ -3483,7 +3497,9 @@ export const OrdersDocument = gql`
     order_time_of_day
     payment_type
     person_in_charge
+    programmed_date
     total
+    social
     route {
       id
       name
@@ -3522,6 +3538,7 @@ export const RouteOrdersDocument = gql`
     id
     customer_id
     clarification
+    social
     items {
       price
       quantity

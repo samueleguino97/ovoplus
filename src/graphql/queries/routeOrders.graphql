@@ -13,6 +13,7 @@ query RouteOrders($route_id: Int = 10, $status: String = "") {
     id
     customer_id
     clarification
+    social
     items {
       price
       quantity

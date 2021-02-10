@@ -9,17 +9,16 @@ import { StepProps } from "types/types";
 
 function Step2({ onNextStep }: StepProps) {
   const [form] = Form.useForm();
-  const db = useDb();
   const [loading, setLoading] = useState<boolean>(false);
   const [, updateCustomer] = useUpdateCustomerMutation();
 
   const orderForm = useOrderState();
 
-  async function correctClient({ clarification, ...values }) {
+  async function correctClient({ clarification, social, ...values }) {
     setLoading(true);
     await updateCustomer({ id: +orderForm.id, ...values });
     setLoading(false);
-    onNextStep({ ...values, clarification });
+    onNextStep({ ...values, clarification, social });
   }
 
   return (
@@ -32,6 +31,13 @@ function Step2({ onNextStep }: StepProps) {
           name="cellphone"
         >
           <Input disabled placeholder="Numero de Celular" />
+        </Form.Item>
+        <Form.Item
+          initialValue={orderForm.social}
+          label="Razon Social"
+          name="social"
+        >
+          <Input placeholder="Razon social" disabled={loading} />
         </Form.Item>
         <Form.Item
           initialValue={orderForm.full_name}
