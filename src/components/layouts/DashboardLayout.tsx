@@ -138,7 +138,9 @@ function DashboardLayout({ children, onLogout }: DashboardLayoutProps) {
         <div style={{ position: "absolute", top: 12, right: 48 }}>
           <Logo width={200} />
         </div>
-        <Content style={{ margin: "0 16px" }}>{children}</Content>
+        <Content style={{ margin: "0 16px", paddingTop: 48 }}>
+          {children}
+        </Content>
       </Layout>
     </Layout>
   );
