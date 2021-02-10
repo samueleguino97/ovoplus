@@ -67,6 +67,11 @@ const sideLinks = [
         label: "Comisiones",
         icon: <FaMoneyCheck />,
       },
+      {
+        path: "/payed",
+        label: "Pagado",
+        icon: <FaMoneyCheck />,
+      },
     ],
   },
   { path: "/settings", label: "Settings", icon: <SettingOutlined /> },

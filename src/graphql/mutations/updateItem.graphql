@@ -4,6 +4,7 @@ mutation UpdateItem(
   $quantity: Int
   $store_price: numeric
   $delivery_price: numeric
+  $category_id: Int
 ) {
   update_delivery_items(
     _set: {
@@ -11,6 +12,7 @@ mutation UpdateItem(
       quantity: $quantity
       delivery_price: $delivery_price
       store_price: $store_price
+      category_id: $category_id
     }
     where: { id: { _eq: $id } }
   ) {
@@ -20,6 +22,7 @@ mutation UpdateItem(
       name
       quantity
       store_price
+      category_id
     }
   }
 }

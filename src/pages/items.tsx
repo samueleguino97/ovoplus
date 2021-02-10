@@ -6,6 +6,7 @@ import {
   InputNumber,
   Modal,
   Row,
+  Select,
   Space,
   Table,
   Typography,
@@ -15,7 +16,9 @@ import {
   useDeleteItemMutation,
   useItemsQuery,
   useUpdateItemMutation,
+  useCategoriesQuery,
   useIncrementItemMutation,
+  useRouteOrdersQuery,
 } from "generated/graphql";
 import React, { useMemo, useState } from "react";
 import { sortBy } from "utils/sortBy";
@@ -26,6 +29,7 @@ function ItemsPage() {
   const [, update] = useUpdateItemMutation();
   const [, increment] = useIncrementItemMutation();
   const [{ data }] = useItemsQuery();
+  const [{ data: categories }] = useCategoriesQuery();
   const items = data ? data.delivery_items : [];
 
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -241,6 +245,17 @@ function ItemsPage() {
                   label="Precio Delivery"
                 >
                   <InputNumber />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={24}>
+                <Form.Item name="category_id" label="Categoria">
+                  <Select placeholder="Selecciona Categoria">
+                    {categories?.delivery_categories?.map((c) => (
+                      <Select.Option value={c.id}>{c.name}</Select.Option>
+                    ))}
+                  </Select>
                 </Form.Item>
               </Col>
             </Row>

@@ -1,0 +1,29 @@
+query RouteOrders($route_id: Int = 10, $status: String = "") {
+  delivery_order(
+    where: { route_id: { _eq: $route_id }, status: { _eq: $status } }
+  ) {
+    total
+    status
+    route_id
+    programmed_date
+    person_in_charge
+    payment_type
+    order_time_of_day
+    order_date
+    id
+    customer_id
+    clarification
+    items {
+      price
+      quantity
+      item {
+        category {
+          comission
+          id
+          name
+        }
+      }
+      id
+    }
+  }
+}

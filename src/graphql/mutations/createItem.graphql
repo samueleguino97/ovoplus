@@ -3,6 +3,7 @@ mutation CreateItem(
   $name: String = ""
   $quantity: Int = 10
   $delivery_price: numeric = 10
+  $category_id: Int
 ) {
   insert_delivery_items_one(
     object: {
@@ -10,6 +11,7 @@ mutation CreateItem(
       name: $name
       quantity: $quantity
       store_price: $store_price
+      category_id: $category_id
     }
   ) {
     delivery_price
