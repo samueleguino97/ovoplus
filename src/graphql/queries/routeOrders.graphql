@@ -22,6 +22,7 @@ query RouteOrders($route_id: Int = 10, $status: String = "") {
           comission
           id
           name
+          color
         }
       }
       id

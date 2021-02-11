@@ -10,6 +10,7 @@ query Items {
       id
       name
       comission
+      color
     }
   }
 }

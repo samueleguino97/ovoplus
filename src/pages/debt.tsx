@@ -107,8 +107,9 @@ function RoutesPage() {
       </Row>
       <Table
         dataSource={
-          routeOrders?.delivery_order?.filter((o) => o.status === "canceled") ||
-          []
+          routeOrders?.delivery_order?.filter(
+            (o) => o.status === "completed"
+          ) || []
         }
         pagination={{ pageSize: 6 }}
         columns={[
@@ -116,7 +117,11 @@ function RoutesPage() {
           {
             title: "Total de la orden",
             dataIndex: "total",
-            render: (v) => v + " Bs",
+            render: (v, i) =>
+              i.items.reduce(
+                (map, next) => map + +next.price * next.quantity,
+                0
+              ) + " Bs",
           },
           {
             title: "Action",

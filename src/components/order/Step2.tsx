@@ -20,14 +20,14 @@ function Step2({ onNextStep }: StepProps) {
     setLoading(false);
     onNextStep({ ...values, clarification, social });
   }
-
+  console.log(orderForm);
   return (
     <Row justify="center">
       <Form layout="vertical" form={form} onFinish={correctClient}>
         <Typography.Title>Verifica la informacion del cliente</Typography.Title>
         <Form.Item
           label="Numero de Celular"
-          initialValue={orderForm.cellphone}
+          initialValue={orderForm.cellphone || orderForm.phone}
           name="cellphone"
         >
           <Input disabled placeholder="Numero de Celular" />

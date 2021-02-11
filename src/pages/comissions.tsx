@@ -21,6 +21,7 @@ import {
   useCreateRouteMutation,
   useRouteOrdersQuery,
   useUpdateOrderMutation,
+  useCategoriesQuery,
 } from "generated/graphql";
 import React, { useMemo, useState } from "react";
 import { groupBy } from "utils/groupBy";
@@ -32,6 +33,7 @@ function RoutesPage() {
   const [, update] = useUpdateItemMutation();
   const [, increment] = useIncrementItemMutation();
   const [{ data }] = useRoutesQuery();
+  const [{ data: categoriesData }] = useCategoriesQuery();
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [creatingItem, setCreatingItem] = useState<boolean>(false);
@@ -51,6 +53,12 @@ function RoutesPage() {
     variables: {
       route_id: +searchTerm,
       status: "canceled",
+    },
+  });
+  const [{ data: routeOrdersPayed }] = useRouteOrdersQuery({
+    variables: {
+      route_id: +searchTerm,
+      status: "payed",
     },
   });
   const items = data ? data.delivery_routes : [];
@@ -107,8 +115,12 @@ function RoutesPage() {
       </Row>
       <Table
         dataSource={
-          routeOrders?.delivery_order?.filter((o) => o.status === "canceled") ||
-          []
+          [
+            ...(routeOrders?.delivery_order?.filter(
+              (o) => o.status === "canceled"
+            ) || []),
+            ...(routeOrdersPayed?.delivery_order || []),
+          ] || []
         }
         pagination={{ pageSize: 6 }}
         columns={[
@@ -116,33 +128,283 @@ function RoutesPage() {
 
           {
             title: "Total de la orden",
-            dataIndex: "total",
-            render: (v) => v + " Bs",
+
+            children: [
+              {
+                title: "Huevos",
+                render: (_, i) => {
+                  const comission = groupBy(
+                    i.items?.map((it) => ({
+                      ...it,
+                      category_name: it.item.category?.name,
+                      comission: it.item.category?.comission,
+                    })) || [],
+                    "category_name"
+                  );
+                  return {
+                    props: {
+                      style: {
+                        backgroundColor: categoriesData.delivery_categories.find(
+                          (c) => c.name === "Huevo"
+                        ).color,
+                      },
+                    },
+                    children:
+                      (comission.Huevo?.reduce(
+                        (map, next) => map + next.price * next.quantity,
+                        0
+                      ) || 0) + " Bs",
+                  };
+                },
+              },
+              {
+                title: "Ovoproductos",
+                render: (_, i) => {
+                  const comission = groupBy(
+                    i.items?.map((it) => ({
+                      ...it,
+                      category_name: it.item.category?.name,
+                      comission: it.item.category?.comission,
+                    })) || [],
+                    "category_name"
+                  );
+                  return {
+                    props: {
+                      style: {
+                        backgroundColor: categoriesData.delivery_categories.find(
+                          (c) => c.name === "Ovoproductos"
+                        ).color,
+                      },
+                    },
+                    children:
+                      (comission.Ovoproductos?.reduce(
+                        (map, next) => map + next.price * next.quantity,
+                        0
+                      ) || 0) + " Bs",
+                  };
+                },
+              },
+              {
+                title: "Embutidos",
+                render: (_, i) => {
+                  const comission = groupBy(
+                    i.items?.map((it) => ({
+                      ...it,
+                      category_name: it.item.category?.name,
+                      comission: it.item.category?.comission,
+                    })) || [],
+                    "category_name"
+                  );
+                  return {
+                    props: {
+                      style: {
+                        backgroundColor: categoriesData.delivery_categories.find(
+                          (c) => c.name === "Embutidos"
+                        ).color,
+                      },
+                    },
+                    children:
+                      (comission.Embutidos?.reduce(
+                        (map, next) => map + next.price * next.quantity,
+                        0
+                      ) || 0) + " Bs",
+                  };
+                },
+              },
+              {
+                title: "Panaderia",
+                render: (_, i) => {
+                  const comission = groupBy(
+                    i.items?.map((it) => ({
+                      ...it,
+                      category_name: it.item.category?.name,
+                      comission: it.item.category?.comission,
+                    })) || [],
+                    "category_name"
+                  );
+                  return {
+                    props: {
+                      style: {
+                        backgroundColor: categoriesData.delivery_categories.find(
+                          (c) => c.name === "Panaderia"
+                        ).color,
+                      },
+                    },
+                    children:
+                      (comission.Panaderia?.reduce(
+                        (map, next) => map + next.price * next.quantity,
+                        0
+                      ) || 0) + " Bs",
+                  };
+                },
+              },
+              {
+                dataIndex: "total",
+                render: (v, i) =>
+                  i.items.reduce(
+                    (map, next) => map + +next.price * next.quantity,
+                    0
+                  ) + " Bs",
+                title: "Total",
+              },
+            ],
           },
           {
             title: "Comision",
-            render: (_, i) => {
-              const comission = groupBy(
-                i.items?.map((it) => ({
-                  ...it,
-                  category_name: it.item.category?.name,
-                  comission: it.item.category?.comission,
-                })) || [],
-                "category_name"
-              );
-              const comissionNumber = Object.keys(comission).reduce(
-                (map, next) =>
-                  map +
-                  comission[next].reduce(
-                    (nMap, nNext) =>
-                      nMap +
-                      nNext.price * nNext.quantity * (nNext.comission / 100),
+            children: [
+              {
+                title: "Huevos",
+                render: (_, i) => {
+                  const comission = groupBy(
+                    i.items?.map((it) => ({
+                      ...it,
+                      category_name: it.item.category?.name,
+                      comission: it.item.category?.comission,
+                    })) || [],
+                    "category_name"
+                  );
+                  return {
+                    props: {
+                      style: {
+                        backgroundColor: categoriesData.delivery_categories.find(
+                          (c) => c.name === "Huevo"
+                        ).color,
+                      },
+                    },
+                    children:
+                      parseFloat(
+                        comission.Huevo?.reduce(
+                          (map, next) =>
+                            map +
+                            next.price * next.quantity * (next.comission / 100),
+                          0
+                        ) || 0
+                      ).toFixed(2) + " Bs",
+                  };
+                },
+              },
+              {
+                title: "Ovoproductos",
+                render: (_, i) => {
+                  const comission = groupBy(
+                    i.items?.map((it) => ({
+                      ...it,
+                      category_name: it.item.category?.name,
+                      comission: it.item.category?.comission,
+                    })) || [],
+                    "category_name"
+                  );
+                  return {
+                    props: {
+                      style: {
+                        backgroundColor: categoriesData.delivery_categories.find(
+                          (c) => c.name === "Ovoproductos"
+                        ).color,
+                      },
+                    },
+                    children:
+                      parseFloat(
+                        comission.Ovoproductos?.reduce(
+                          (map, next) =>
+                            map +
+                            next.price * next.quantity * (next.comission / 100),
+                          0
+                        ) || 0
+                      ).toFixed(2) + " Bs",
+                  };
+                },
+              },
+              {
+                title: "Embutidos",
+                render: (_, i) => {
+                  const comission = groupBy(
+                    i.items?.map((it) => ({
+                      ...it,
+                      category_name: it.item.category?.name,
+                      comission: it.item.category?.comission,
+                    })) || [],
+                    "category_name"
+                  );
+                  return {
+                    props: {
+                      style: {
+                        backgroundColor: categoriesData.delivery_categories.find(
+                          (c) => c.name === "Embutidos"
+                        ).color,
+                      },
+                    },
+                    children:
+                      parseFloat(
+                        comission.Embutidos?.reduce(
+                          (map, next) =>
+                            map +
+                            next.price * next.quantity * (next.comission / 100),
+                          0
+                        ) || 0
+                      ).toFixed(2) + " Bs",
+                  };
+                },
+              },
+              {
+                title: "Panaderia",
+                render: (_, i) => {
+                  const comission = groupBy(
+                    i.items?.map((it) => ({
+                      ...it,
+                      category_name: it.item.category?.name,
+                      comission: it.item.category?.comission,
+                    })) || [],
+                    "category_name"
+                  );
+                  return {
+                    props: {
+                      style: {
+                        backgroundColor: categoriesData.delivery_categories.find(
+                          (c) => c.name === "Panaderia"
+                        ).color,
+                      },
+                    },
+                    children:
+                      parseFloat(
+                        comission.Panaderia?.reduce(
+                          (map, next) =>
+                            map +
+                            next.price * next.quantity * (next.comission / 100),
+                          0
+                        ) || 0
+                      ).toFixed(2) + " Bs",
+                  };
+                },
+              },
+              {
+                dataIndex: "total",
+                render: (v, i) => {
+                  const comission = groupBy(
+                    i.items?.map((it) => ({
+                      ...it,
+                      category_name: it.item.category?.name,
+                      comission: it.item.category?.comission,
+                    })) || [],
+                    "category_name"
+                  );
+                  const comissionNumber = Object.keys(comission).reduce(
+                    (map, next) =>
+                      map +
+                      comission[next].reduce(
+                        (nMap, nNext) =>
+                          nMap +
+                          nNext.price *
+                            nNext.quantity *
+                            (nNext.comission / 100),
+                        0
+                      ),
                     0
-                  ),
-                0
-              );
-              return parseFloat(comissionNumber).toFixed(2) + " Bs";
-            },
+                  );
+                  return parseFloat(comissionNumber || 0).toFixed(2) + " Bs";
+                },
+                title: "Total",
+              },
+            ],
           },
           {
             title: "Action",
@@ -151,6 +413,7 @@ function RoutesPage() {
               <Space size="middle">
                 <Button
                   type="primary"
+                  disabled={record.status === "payed"}
                   onClick={() => {
                     updateOrder({
                       id: record.id,
@@ -159,10 +422,6 @@ function RoutesPage() {
                       order_time_of_day: record.order_time_of_day,
                       programmed_date: record.programmed_date,
                     });
-
-                    // setCreatingItem(true);
-                    // form.setFieldsValue({ ...record });
-                    // setItemToEdit(record.id.toString());
                   }}
                 >
                   Pagado

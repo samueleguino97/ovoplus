@@ -3,5 +3,6 @@ query Categories {
     comission
     id
     name
+    color
   }
 }

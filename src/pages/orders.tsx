@@ -62,6 +62,7 @@ function OrderHistoryPage() {
       <Table
         dataSource={
           res?.data?.delivery_order
+            .filter((i) => i.status !== "completed")
             .sort(sortBy("id"))
             .map((i) => ({ ...i, key: i.id })) || []
         }
@@ -93,6 +94,10 @@ function OrderHistoryPage() {
                           (map, next) => map + +next.quantity,
                           0
                         ),
+                        total: record.items.reduce(
+                          (map, next) => map + +next.quantity * next.price,
+                          0
+                        ),
                       },
                     ]}
                     columns={[
@@ -115,7 +120,9 @@ function OrderHistoryPage() {
                         title: "Precio Total",
                         render: (item) => (
                           <span>
-                            {(item.quantity * item.price).toFixed(2)}{" "}
+                            {(item.total || item.quantity * item.price).toFixed(
+                              2
+                            )}{" "}
                             <span style={{ opacity: 0.5 }}>Bs.</span>
                           </span>
                         ),

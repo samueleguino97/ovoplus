@@ -143,6 +143,7 @@ function ItemsPage() {
             },
           },
           { title: "Cantidad en Inventario", dataIndex: "quantity" },
+          { title: "Categoria", render: (_, i) => i.category?.name },
           {
             title: "Action",
             key: "action",

@@ -65,6 +65,7 @@ export type Date_Comparison_Exp = {
 /** columns and relationships of "delivery.categories" */
 export type Delivery_Categories = {
   __typename?: 'delivery_categories';
+  color?: Maybe<Scalars['String']>;
   comission?: Maybe<Scalars['numeric']>;
   id: Scalars['Int'];
   /** An array relationship */
@@ -163,6 +164,7 @@ export type Delivery_Categories_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Delivery_Categories_Bool_Exp>>>;
   _not?: Maybe<Delivery_Categories_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Delivery_Categories_Bool_Exp>>>;
+  color?: Maybe<String_Comparison_Exp>;
   comission?: Maybe<Numeric_Comparison_Exp>;
   id?: Maybe<Int_Comparison_Exp>;
   items?: Maybe<Delivery_Items_Bool_Exp>;
@@ -183,6 +185,7 @@ export type Delivery_Categories_Inc_Input = {
 
 /** input type for inserting data into table "delivery.categories" */
 export type Delivery_Categories_Insert_Input = {
+  color?: Maybe<Scalars['String']>;
   comission?: Maybe<Scalars['numeric']>;
   id?: Maybe<Scalars['Int']>;
   items?: Maybe<Delivery_Items_Arr_Rel_Insert_Input>;
@@ -192,6 +195,7 @@ export type Delivery_Categories_Insert_Input = {
 /** aggregate max on columns */
 export type Delivery_Categories_Max_Fields = {
   __typename?: 'delivery_categories_max_fields';
+  color?: Maybe<Scalars['String']>;
   comission?: Maybe<Scalars['numeric']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -199,6 +203,7 @@ export type Delivery_Categories_Max_Fields = {
 
 /** order by max() on columns of table "delivery.categories" */
 export type Delivery_Categories_Max_Order_By = {
+  color?: Maybe<Order_By>;
   comission?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
@@ -207,6 +212,7 @@ export type Delivery_Categories_Max_Order_By = {
 /** aggregate min on columns */
 export type Delivery_Categories_Min_Fields = {
   __typename?: 'delivery_categories_min_fields';
+  color?: Maybe<Scalars['String']>;
   comission?: Maybe<Scalars['numeric']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -214,6 +220,7 @@ export type Delivery_Categories_Min_Fields = {
 
 /** order by min() on columns of table "delivery.categories" */
 export type Delivery_Categories_Min_Order_By = {
+  color?: Maybe<Order_By>;
   comission?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
@@ -243,6 +250,7 @@ export type Delivery_Categories_On_Conflict = {
 
 /** ordering options when selecting data from "delivery.categories" */
 export type Delivery_Categories_Order_By = {
+  color?: Maybe<Order_By>;
   comission?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   items_aggregate?: Maybe<Delivery_Items_Aggregate_Order_By>;
@@ -257,6 +265,8 @@ export type Delivery_Categories_Pk_Columns_Input = {
 /** select columns of table "delivery.categories" */
 export enum Delivery_Categories_Select_Column {
   /** column name */
+  Color = 'color',
+  /** column name */
   Comission = 'comission',
   /** column name */
   Id = 'id',
@@ -266,6 +276,7 @@ export enum Delivery_Categories_Select_Column {
 
 /** input type for updating data in table "delivery.categories" */
 export type Delivery_Categories_Set_Input = {
+  color?: Maybe<Scalars['String']>;
   comission?: Maybe<Scalars['numeric']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -325,6 +336,8 @@ export type Delivery_Categories_Sum_Order_By = {
 
 /** update columns of table "delivery.categories" */
 export enum Delivery_Categories_Update_Column {
+  /** column name */
+  Color = 'color',
   /** column name */
   Comission = 'comission',
   /** column name */
@@ -3175,7 +3188,7 @@ export type CategoriesQuery = (
   { __typename?: 'query_root' }
   & { delivery_categories: Array<(
     { __typename?: 'delivery_categories' }
-    & Pick<Delivery_Categories, 'comission' | 'id' | 'name'>
+    & Pick<Delivery_Categories, 'comission' | 'id' | 'name' | 'color'>
   )> }
 );
 
@@ -3202,7 +3215,7 @@ export type ItemsQuery = (
     & Pick<Delivery_Items, 'id' | 'name' | 'quantity' | 'store_price' | 'delivery_price' | 'category_id'>
     & { category?: Maybe<(
       { __typename?: 'delivery_categories' }
-      & Pick<Delivery_Categories, 'id' | 'name' | 'comission'>
+      & Pick<Delivery_Categories, 'id' | 'name' | 'comission' | 'color'>
     )> }
   )> }
 );
@@ -3250,7 +3263,7 @@ export type RouteOrdersQuery = (
         { __typename?: 'delivery_items' }
         & { category?: Maybe<(
           { __typename?: 'delivery_categories' }
-          & Pick<Delivery_Categories, 'comission' | 'id' | 'name'>
+          & Pick<Delivery_Categories, 'comission' | 'id' | 'name' | 'color'>
         )> }
       ) }
     )> }
@@ -3444,6 +3457,7 @@ export const CategoriesDocument = gql`
     comission
     id
     name
+    color
   }
 }
     `;
@@ -3479,6 +3493,7 @@ export const ItemsDocument = gql`
       id
       name
       comission
+      color
     }
   }
 }
@@ -3547,6 +3562,7 @@ export const RouteOrdersDocument = gql`
           comission
           id
           name
+          color
         }
       }
       id
