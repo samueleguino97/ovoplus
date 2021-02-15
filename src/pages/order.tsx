@@ -33,7 +33,7 @@ const orderRegistrationSteps = [
 function OrderPage() {
   const [currentStep, setCurrentStep] = useState(0);
 
-  const [customer, setCustomer] = useState<{}>();
+  const [customer, setCustomer] = useState<any>();
   const [isDelivery, setIsDelivery] = useState(true);
   const [clarification, setClarification] = useState("");
   const [social, setSocial] = useState("");

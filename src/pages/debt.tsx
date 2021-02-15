@@ -75,15 +75,8 @@ function RoutesPage() {
       setCreatingItem(false);
     });
   }
-  const filteredItems = useMemo(
-    () =>
-      items
-        .filter((item) =>
-          item.name.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-        .sort(sortBy("id")),
-    [items, searchTerm]
-  );
+
+  console.log(routeOrders?.delivery_order);
   return (
     <div style={{ padding: 24 }}>
       <Typography.Title>Deudas</Typography.Title>
