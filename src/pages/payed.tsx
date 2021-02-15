@@ -107,7 +107,7 @@ function RoutesPage() {
       </Row>
       <Table
         dataSource={
-          routeOrders?.delivery_order?.filter((o) => o.status === "cenceled") ||
+          routeOrders?.delivery_order?.filter((o) => o.status === "canceled") ||
           []
         }
         pagination={{ pageSize: 6 }}
