@@ -50,7 +50,7 @@ function RoutesPage() {
   const [{ data: routeOrders }] = useRouteOrdersQuery({
     variables: {
       route_id: +searchTerm,
-      status: "payed",
+      status: "canceled",
     },
   });
   const items = data ? data.delivery_routes : [];
@@ -107,7 +107,8 @@ function RoutesPage() {
       </Row>
       <Table
         dataSource={
-          routeOrders?.delivery_order?.filter((o) => o.status === "payed") || []
+          routeOrders?.delivery_order?.filter((o) => o.status === "cenceled") ||
+          []
         }
         pagination={{ pageSize: 6 }}
         columns={[
