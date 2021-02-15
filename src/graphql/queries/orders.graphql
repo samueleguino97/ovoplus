@@ -10,6 +10,7 @@ query Orders {
     programmed_date
     total
     social
+    is_delivery
     route {
       id
       name

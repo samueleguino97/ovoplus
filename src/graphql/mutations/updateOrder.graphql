@@ -19,5 +19,13 @@ mutation UpdateOrder(
     route_id
     status
     programmed_date
+    route {
+      id
+      name
+      driver_name
+      driver_last
+      driver_ci
+      driver_plate
+    }
   }
 }
