@@ -80,6 +80,12 @@ function OrderHistoryPage() {
                           (map, next) => map + +next.quantity,
                           0
                         ),
+                        total: record.items
+                          .reduce(
+                            (map, next) => map + +next.quantity * next.price,
+                            0
+                          )
+                          .toFixed(2),
                       },
                     ]}
                     columns={[
@@ -102,7 +108,9 @@ function OrderHistoryPage() {
                         title: "Precio Total",
                         render: (item) => (
                           <span>
-                            {(item.quantity * item.price).toFixed(2)}{" "}
+                            {(
+                              item.total || item.quantity * item.price
+                            )?.toFixed(2)}{" "}
                             <span style={{ opacity: 0.5 }}>Bs.</span>
                           </span>
                         ),
@@ -151,6 +159,11 @@ function OrderHistoryPage() {
             title: "Total",
             dataIndex: "total",
             key: "total",
+            render: (_, i) => {
+              return i.items
+                .reduce((map, next) => map + +next.quantity * next.price, 0)
+                ?.toFixed(2);
+            },
           },
         ]}
       />
