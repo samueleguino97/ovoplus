@@ -16,6 +16,19 @@ export type Scalars = {
   numeric: any;
 };
 
+/** expression to compare columns of type Boolean. All fields are combined with logical 'AND'. */
+export type Boolean_Comparison_Exp = {
+  _eq?: Maybe<Scalars['Boolean']>;
+  _gt?: Maybe<Scalars['Boolean']>;
+  _gte?: Maybe<Scalars['Boolean']>;
+  _in?: Maybe<Array<Scalars['Boolean']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['Boolean']>;
+  _lte?: Maybe<Scalars['Boolean']>;
+  _neq?: Maybe<Scalars['Boolean']>;
+  _nin?: Maybe<Array<Scalars['Boolean']>>;
+};
+
 /** expression to compare columns of type Int. All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
   _eq?: Maybe<Scalars['Int']>;
@@ -1092,6 +1105,7 @@ export type Delivery_Order = {
   customer: Delivery_Customer;
   customer_id: Scalars['Int'];
   id: Scalars['Int'];
+  is_delivery?: Maybe<Scalars['Boolean']>;
   /** An array relationship */
   items: Array<Delivery_Order_Items>;
   /** An aggregated array relationship */
@@ -1206,6 +1220,7 @@ export type Delivery_Order_Bool_Exp = {
   customer?: Maybe<Delivery_Customer_Bool_Exp>;
   customer_id?: Maybe<Int_Comparison_Exp>;
   id?: Maybe<Int_Comparison_Exp>;
+  is_delivery?: Maybe<Boolean_Comparison_Exp>;
   items?: Maybe<Delivery_Order_Items_Bool_Exp>;
   order_date?: Maybe<Date_Comparison_Exp>;
   order_time_of_day?: Maybe<String_Comparison_Exp>;
@@ -1239,6 +1254,7 @@ export type Delivery_Order_Insert_Input = {
   customer?: Maybe<Delivery_Customer_Obj_Rel_Insert_Input>;
   customer_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  is_delivery?: Maybe<Scalars['Boolean']>;
   items?: Maybe<Delivery_Order_Items_Arr_Rel_Insert_Input>;
   order_date?: Maybe<Scalars['date']>;
   order_time_of_day?: Maybe<Scalars['String']>;
@@ -1352,8 +1368,6 @@ export type Delivery_Order_Items_Bool_Exp = {
 
 /** unique or primary key constraints on table "delivery.order_items" */
 export enum Delivery_Order_Items_Constraint {
-  /** unique or primary key constraint */
-  OrderItemsItemIdKey = 'order_items_item_id_key',
   /** unique or primary key constraint */
   OrderItemsPkey = 'order_items_pkey'
 }
@@ -1718,6 +1732,7 @@ export type Delivery_Order_Order_By = {
   customer?: Maybe<Delivery_Customer_Order_By>;
   customer_id?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
+  is_delivery?: Maybe<Order_By>;
   items_aggregate?: Maybe<Delivery_Order_Items_Aggregate_Order_By>;
   order_date?: Maybe<Order_By>;
   order_time_of_day?: Maybe<Order_By>;
@@ -1745,6 +1760,8 @@ export enum Delivery_Order_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  IsDelivery = 'is_delivery',
+  /** column name */
   OrderDate = 'order_date',
   /** column name */
   OrderTimeOfDay = 'order_time_of_day',
@@ -1769,6 +1786,7 @@ export type Delivery_Order_Set_Input = {
   clarification?: Maybe<Scalars['String']>;
   customer_id?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  is_delivery?: Maybe<Scalars['Boolean']>;
   order_date?: Maybe<Scalars['date']>;
   order_time_of_day?: Maybe<Scalars['String']>;
   payment_type?: Maybe<Scalars['String']>;
@@ -1856,6 +1874,8 @@ export enum Delivery_Order_Update_Column {
   CustomerId = 'customer_id',
   /** column name */
   Id = 'id',
+  /** column name */
+  IsDelivery = 'is_delivery',
   /** column name */
   OrderDate = 'order_date',
   /** column name */
@@ -3052,6 +3072,7 @@ export type CreateOrderMutationVariables = Exact<{
   total?: Maybe<Scalars['numeric']>;
   route_id?: Maybe<Scalars['Int']>;
   social?: Maybe<Scalars['String']>;
+  isDelivery?: Maybe<Scalars['Boolean']>;
 }>;
 
 
@@ -3059,7 +3080,7 @@ export type CreateOrderMutation = (
   { __typename?: 'mutation_root' }
   & { insert_delivery_order_one?: Maybe<(
     { __typename?: 'delivery_order' }
-    & Pick<Delivery_Order, 'clarification' | 'customer_id' | 'id' | 'order_date' | 'order_time_of_day' | 'payment_type' | 'person_in_charge' | 'total'>
+    & Pick<Delivery_Order, 'clarification' | 'customer_id' | 'id' | 'order_date' | 'order_time_of_day' | 'payment_type' | 'person_in_charge' | 'total' | 'is_delivery'>
   )> }
 );
 
@@ -3178,6 +3199,10 @@ export type UpdateOrderMutation = (
   & { update_delivery_order_by_pk?: Maybe<(
     { __typename?: 'delivery_order' }
     & Pick<Delivery_Order, 'id' | 'order_time_of_day' | 'route_id' | 'status' | 'programmed_date'>
+    & { route?: Maybe<(
+      { __typename?: 'delivery_routes' }
+      & Pick<Delivery_Routes, 'id' | 'name' | 'driver_name' | 'driver_last' | 'driver_ci' | 'driver_plate'>
+    )> }
   )> }
 );
 
@@ -3227,7 +3252,7 @@ export type OrdersQuery = (
   { __typename?: 'query_root' }
   & { delivery_order: Array<(
     { __typename?: 'delivery_order' }
-    & Pick<Delivery_Order, 'clarification' | 'id' | 'status' | 'order_date' | 'order_time_of_day' | 'payment_type' | 'person_in_charge' | 'programmed_date' | 'total' | 'social'>
+    & Pick<Delivery_Order, 'clarification' | 'id' | 'status' | 'order_date' | 'order_time_of_day' | 'payment_type' | 'person_in_charge' | 'programmed_date' | 'total' | 'social' | 'is_delivery'>
     & { route?: Maybe<(
       { __typename?: 'delivery_routes' }
       & Pick<Delivery_Routes, 'id' | 'name'>
@@ -3315,9 +3340,9 @@ export function useCreateItemMutation() {
   return Urql.useMutation<CreateItemMutation, CreateItemMutationVariables>(CreateItemDocument);
 };
 export const CreateOrderDocument = gql`
-    mutation CreateOrder($clarification: String, $customer_id: Int, $order_date: date, $order_time_of_day: String, $payment_type: String, $person_in_charge: String, $total: numeric, $route_id: Int, $social: String) {
+    mutation CreateOrder($clarification: String, $customer_id: Int, $order_date: date, $order_time_of_day: String, $payment_type: String, $person_in_charge: String, $total: numeric, $route_id: Int, $social: String, $isDelivery: Boolean) {
   insert_delivery_order_one(
-    object: {clarification: $clarification, customer_id: $customer_id, order_date: $order_date, order_time_of_day: $order_time_of_day, payment_type: $payment_type, person_in_charge: $person_in_charge, total: $total, route_id: $route_id, social: $social}
+    object: {clarification: $clarification, customer_id: $customer_id, order_date: $order_date, order_time_of_day: $order_time_of_day, payment_type: $payment_type, person_in_charge: $person_in_charge, total: $total, route_id: $route_id, social: $social, is_delivery: $isDelivery}
   ) {
     clarification
     customer_id
@@ -3327,6 +3352,7 @@ export const CreateOrderDocument = gql`
     payment_type
     person_in_charge
     total
+    is_delivery
   }
 }
     `;
@@ -3444,6 +3470,14 @@ export const UpdateOrderDocument = gql`
     route_id
     status
     programmed_date
+    route {
+      id
+      name
+      driver_name
+      driver_last
+      driver_ci
+      driver_plate
+    }
   }
 }
     `;
@@ -3515,6 +3549,7 @@ export const OrdersDocument = gql`
     programmed_date
     total
     social
+    is_delivery
     route {
       id
       name

@@ -59,6 +59,7 @@ function OrderPage() {
       total: orderItems.reduce((map, next) => {
         return map + +next.price;
       }, 0),
+      isDelivery,
     });
     const newOrder = res.data.insert_delivery_order_one;
     await createOrderItems({
