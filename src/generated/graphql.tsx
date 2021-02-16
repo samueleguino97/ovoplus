@@ -3181,6 +3181,10 @@ export type UpdateItemMutation = (
     & { returning: Array<(
       { __typename?: 'delivery_items' }
       & Pick<Delivery_Items, 'id' | 'delivery_price' | 'name' | 'quantity' | 'store_price' | 'category_id'>
+      & { category?: Maybe<(
+        { __typename?: 'delivery_categories' }
+        & Pick<Delivery_Categories, 'id' | 'name'>
+      )> }
     )> }
   )> }
 );
@@ -3451,6 +3455,10 @@ export const UpdateItemDocument = gql`
       quantity
       store_price
       category_id
+      category {
+        id
+        name
+      }
     }
   }
 }

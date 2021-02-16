@@ -23,6 +23,10 @@ mutation UpdateItem(
       quantity
       store_price
       category_id
+      category {
+        id
+        name
+      }
     }
   }
 }
