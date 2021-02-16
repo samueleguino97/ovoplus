@@ -108,7 +108,7 @@ function OrderHistoryPage() {
                         title: "Precio Total",
                         render: (item) => (
                           <span>
-                            {(
+                            {parseFloat(
                               item.total || item.quantity * item.price
                             )?.toFixed(2)}{" "}
                             <span style={{ opacity: 0.5 }}>Bs.</span>
