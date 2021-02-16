@@ -48,7 +48,7 @@ function OrderHistoryPage() {
       <Table
         dataSource={
           res?.data?.delivery_order
-            .filter((i) => i.status === "completed")
+            .filter((i) => i.status !== "recieved")
             .sort(sortBy("id"))
             .map((i) => ({ ...i, key: i.id })) || []
         }
