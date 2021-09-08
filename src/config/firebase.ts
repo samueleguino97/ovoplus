@@ -3,13 +3,12 @@ import "firebase/firestore";
 import "firebase/auth";
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyBuo8xOHhsFxNkjcMDFYXzTwZB8vG96RcU",
-  authDomain: "pipo-5778b.firebaseapp.com",
-  projectId: "pipo-5778b",
-  storageBucket: "pipo-5778b.appspot.com",
-  messagingSenderId: "726163727852",
-  appId: "1:726163727852:web:2008a703d2da34476d4cc9",
-  measurementId: "G-ET1W0KPCXS",
+  apiKey: "AIzaSyAZdx-t7bdEdTwjjbjkzZPUdBK08wlbrQY",
+  authDomain: "ovoplus-6d3f0.firebaseapp.com",
+  projectId: "ovoplus-6d3f0",
+  storageBucket: "ovoplus-6d3f0.appspot.com",
+  messagingSenderId: "946121012339",
+  appId: "1:946121012339:web:573947d130ef22e6042606",
 };
 export function initializeFirebase() {
   !firebase.apps.length
