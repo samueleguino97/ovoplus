@@ -41,7 +41,7 @@ const client = createClient({
           },
         },
       },
-    }),
+    }) as any,
     fetchExchange,
   ],
 });
